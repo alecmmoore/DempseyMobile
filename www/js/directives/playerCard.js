@@ -3,6 +3,7 @@ dempsey.directive('playerCard', function () {
         restrict: 'E',
         templateUrl: './views/directives/playerCard.html',
         scope: {
+            sub: '=?',
             name: '=?',
             num: '=?',
             isSecondStat: '=?'

@@ -42,7 +42,7 @@
                                 </marker>
                             </defs>
                         </g>
-                        <g ng-repeat="shot in shots">
+                        <g ng-repeat="shot in shots track by $index">
                             <g style="opacity: .5;">
                                 <line ng-if="shot.type !== 'blocked'" x1="{{shot.shotPos.x}}%" y1="{{shot.shotPos.y}}%" x2="{{shot.resultPos.x}}%" y2="{{shot.resultPos.y}}%" style="stroke:#5DA97B;stroke-width:1.5%;marker-end:url(#arrow);" />
                                 <line  ng-if="shot.type === 'blocked'" x1="{{shot.shotPos.x}}%" y1="{{shot.shotPos.y}}%" x2="{{shot.resultPos.x}}%" y2="{{shot.resultPos.y}}%" style="stroke:#5DA97B;stroke-width:1.5%;marker-end:url(#block);" />

@@ -1,5 +1,5 @@
 * {
-    font-family: "Myriad Pro";
+    font-family: "Myriad Pro",Helvetica, Arial, sans-serif;
 }
 
 body, html {
@@ -7,8 +7,8 @@ body, html {
     background-color: #F2F2F2;
 }
 
-.title {
-    font-family: "Myriad Pro Semibold";
+div.title.header-item {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 h1 {
@@ -32,7 +32,7 @@ h4 {
 
 p {
     color:#B4B4B4;
-    font-family: "Myriad Pro Semibold";
+    font-family: "Myriad Pro Semibold", Helvetica, Arial, sans-serif;
 }
 
 a {

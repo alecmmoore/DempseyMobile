@@ -1,5 +1,34 @@
-<ion-view view-title="Tackles">
-    <ion-content>
-        <h1>Tackles</h1>
+<ion-view view-title="Tackles" ng-controller="tacklesController as tacklesCtrl">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="tacklesCtrl.edit()">
+            {{tacklesCtrl.state === 'new' ? 'Edit' : 'Done'}}
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="passes-page">
+        <div class="hero">
+
+        </div>
+        <div>
+            <div class="field">
+                <div class="back-layer">
+                    <img src="img/full-field.svg" />
+                </div>
+                <div class="player-layer">
+                    <player-card name="player.name" num="player.num" ng-repeat="player in players" style="left:{{player.x}}%; top:{{player.y}}%"></player-card>
+                </div>
+            </div>
+            <div class="bench">
+                <h3>BENCH</h3>
+                <div>
+                    <player-card name="'Barret'" num="19"></player-card>
+                    <player-card name="'Kovar'" num="11"></player-card>
+                    <player-card name="'Fisher'" num="29"></player-card>
+                    <player-card name="'Mansaray'" num="80"></player-card>
+                    <player-card name="'Jones'" num="17"></player-card>
+                    <player-card name="'Scott'" num="20"></player-card>
+                    <player-card name="'Roldan'" num="7"></player-card>
+                </div>
+            </div>
+        </div>
     </ion-content>
 </ion-view>

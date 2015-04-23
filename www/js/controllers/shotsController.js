@@ -13,15 +13,7 @@ dempsey.controller('shotsController',
         }
 
         // Shot Types: off, on, goal, blocked
-        $scope.shots = [
-            {
-                takenBy: 'Moore',
-                assistedBy: '',
-                type: 'on',
-                shotPos: {x: 50, y: 50},
-                resultPos: {x: 75, y: 16}
-            }
-        ];
+        $scope.shots = [];
 
         // Shot counts
         $scope.on = 0;
@@ -30,25 +22,20 @@ dempsey.controller('shotsController',
 
         self.addShot = function(shot) {
             if (viewService.validateAreaByFormName('shotForm')) {
-                $scope.shots.push(shot);
-
                 // Increment shot type count
                 if (shot.type === 'goal') {
                     $scope.on++;
                 }
                 else {
                     $scope[shot.type] += 1;
+                    shot.assistedBy = '';
                 }
 
-                self.currentShot = {
-                    takenBy: '',
-                    assistedBy: '',
-                    type: '',
-                    shotPos: {x: 50, y: 75},
-                    resultPos: {x: 50, y: 10}
-                }
+                $scope.shots.push(angular.copy(shot));
 
-                $scope.shotForm.$setPristine();
+                // Reset
+                self.currentShot.shotPos = {x: 50, y: 75};
+                self.currentShot.resultPos = {x: 50, y: 10};
             }
         }
 
@@ -65,7 +52,18 @@ dempsey.controller('shotsController',
         }
 
         self.deleteShot = function(shot) {
-            console.log(shot);
+            // Increment shot type count
+            if (shot.type === 'goal') {
+                if ($scope.on > 0) {
+                    $scope.on--;
+                }
+            }
+            else {
+                if ($scope[shot.type] > 0) {
+                    $scope[shot.type] -= 1;
+                }
+            }
+
             $scope.shots.splice($scope.shots.indexOf(shot),1);
         }
 
