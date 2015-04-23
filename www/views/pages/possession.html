@@ -1,0 +1,45 @@
+<ion-view view-title="Possession" ng-controller="possessionController as posCtrl">
+    <ion-content class="possession-page">
+        <div class="hero">
+            <div class="flex flex-center-vertical">
+                <div class="flex flex-center-vertical">
+                    <div class="img-container flex flex-center flex-one">
+                        <img src="img/sample/logo-small.png"/>
+                    </div>
+                    <h2>SEA</h2>
+                </div>
+                <div class="flex-one"></div>
+                <div class="flex flex-center-vertical">
+                <h2>FCD</h2>
+                <div class="img-container flex flex-center flex-one">
+                    <img src="img/sample/logo-small.png"/>
+                </div>
+            </div>
+            </div>
+            <am-possession-bar data="possession.data"></am-possession-bar>
+        </div>
+
+        <div class="body">
+            <div class="flex">
+
+                <div ng-click="posCtrl.setSelected(0)" ng-class="{'selected': posCtrl.getSelected(0)}" class="team flex-one flex flex-center">
+                    <img src="img/sample/logo-small.png"/>
+                </div>
+
+                <div ng-click="posCtrl.setSelected(1)" ng-class="{'selected': posCtrl.getSelected(1)}" class="opponent flex-one flex flex-center">
+                    <img src="img/sample/logo-small.png"/>
+                </div>
+
+            </div>
+
+            <br/>
+
+            <p class="description">
+                Possession is determined by which team has control of the ball.
+                <br/>
+                <br/>
+                Click on the icon of the team that has possession of the ball and record each subsequent change in possession to determine the percentage of possession at the end of the game.
+            </p>
+        </div>
+    </ion-content>
+</ion-view>

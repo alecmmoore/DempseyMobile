@@ -1,0 +1,323 @@
+* {
+    font-family: "Myriad Pro";
+}
+
+body, html {
+    font-family: "Myriad Pro Semibold";
+    background-color: #F2F2F2;
+}
+
+.title {
+    font-family: "Myriad Pro Semibold";
+}
+
+h1 {
+
+}
+
+h2 {
+    margin:0;
+    font-size: 32px;
+    font-weight:600;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight:500;
+}
+
+h4 {
+    font-weight:bold;
+}
+
+p {
+    color:#B4B4B4;
+    font-family: "Myriad Pro Semibold";
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+
+}
+
+select.ng-invalid-required.ng-touched,
+input.ng-invalid-email.ng-touched,
+input.ng-invalid-pattern.ng-touched,
+input.ng-invalid-required.ng-touched {
+    background-color: #FFE1E1;
+    border:1px solid #FF7373;
+}
+
+/* Flex Styles */
+.flex {
+    display: -webkit-box !important;
+    display: -moz-box !important;
+    display: -ms-flexbox !important;
+    display: -ms-flex !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+}
+
+.flex-center {
+    -webkit-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.flex-center-horizontal {
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.flex-center-vertical {
+    -webkit-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+}
+
+.flex-stretch {
+    -webkit-align-items: stretch;
+    -ms-align-items: stretch;
+    align-items: stretch;
+}
+
+.flex-align-bottom {
+    -webkit-align-items: flex-end;
+    -ms-align-items: flex-end;
+    align-items: flex-end;
+}
+
+.flex-column {
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.flex-space-between {
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.flex-one {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
+.flex-two {
+    -webkit-flex: 2;
+    -ms-flex: 2;
+    flex: 2;
+}
+
+.flex-three {
+    -webkit-flex: 3 !important;
+    -ms-flex: 3 !important;
+    flex: 3 !important;
+}
+
+.flex-initial {
+    -webkit-flex: initial !important;
+    -ms-flex: initial !important;
+    flex: initial !important;
+}
+
+.disabled {
+    opacity: 0.25;
+    pointer-events:none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.ellipse {
+    padding-top: 1px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-bottom: 2px;
+}
+
+.right {
+    float: right;
+}
+
+.relative {
+    position: relative;
+}
+
+ion-header-bar.bar.bar-soccer {
+    background-color:#5DA97B;
+    border-color:#5DA97B;
+}
+
+.button-positive {
+    background-color:#5DA97B !important;
+    border-color:#5DA97B !important;
+}
+
+.button-assertive {
+    background-color:#FF7373 !important;
+    border-color:#FF7373 !important;
+}
+
+/* Page Defaults */
+ion-content .hero {
+    background-color: #222;
+    color:#FFF;
+    padding: 25px 10px;
+}
+
+ion-content .body {
+    padding: 2%;
+}
+
+ion-content .hero h2 {
+    color:#FFF;
+    margin: 0 10px;
+}
+
+.home-page .list {
+    padding: 0 !important;
+}
+
+.home-page .list .row {
+    padding: 0;
+}
+
+.home-page .list .col {
+    min-height: 200px;
+    border: 1px solid #ddd;
+    margin-left: -1px;
+    margin-bottom: -1px;
+}
+
+.home-page .list .col img {
+    margin: 0 15%;
+    min-width: 100%;
+}
+
+.home-page .list .col h3 {
+    text-align: center;
+    color:#5DA97B;
+}
+
+/* Possession Page */
+.possession-page {
+
+}
+
+.possession-page .opponent,
+.possession-page .team {
+    min-height: 215px;
+    opacity: 0.1;
+}
+
+.possession-page .opponent.selected,
+.possession-page .team.selected {
+    opacity: 1;
+}
+
+.possession-page .team {
+    background-color:#5DA97B;
+    margin-right: 2px;
+}
+
+.possession-page .opponent {
+    background-color:#B4B4B4;
+}
+
+/* Shot Controller */
+.shots-page .svg-container {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+.shots-page .shots > div:first-child {
+    width:100%;
+    position: relative;
+}
+
+.shots-page .shots > div:first-child img {
+    width:100%;
+}
+
+.shots-page .shots .back-layer {
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+.shots-page .shots .lines {
+    display: inline-block;
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+}
+
+.shots-page .hero {
+    margin-bottom: 20px;
+}
+
+    .shots-page .hero h3 {
+        font-size: 11pt;
+        color:#5DA97B;
+    }
+
+    .shots-page .hero h3 {
+        font-size: 11pt;
+        color:#5DA97B;
+    }
+
+.shots-page .details {
+    margin-top: 20px;
+
+}
+
+/* Passes Page */
+.passes-page {
+
+}
+
+.passes-page .field {
+    position: relative;
+}
+
+.passes-page .field .back-layer img {
+    width: 100%;
+}
+
+.passes-page .field .player-layer {
+    position: absolute;
+    z-index: 1;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+}
+
+.passes-page .field player-card {
+    position: absolute;
+}
+
+.passes-page .bench player-card {
+    float:left;
+    margin-right: 2px;
+    margin-bottom: 2px;
+}

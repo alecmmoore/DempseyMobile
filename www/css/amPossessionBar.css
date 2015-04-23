@@ -1,0 +1,32 @@
+am-possession-bar {
+    height: 60px;
+    margin-top: 10px;
+    padding: 20px 0;
+    display: block;
+}
+
+am-possession-bar > div {
+    background-color: #DDD;
+    height: 20px;
+}
+
+am-possession-bar .possession {
+    background-color: #5DA97B;
+    width: 50%;
+    height: 20px;
+}
+
+am-possession-bar .percentage {
+    position: absolute;
+    top:-98%;
+    width:60px;
+    height:60px;
+    border-radius: 50px;
+    background-color: #5DA97B;
+    border: 5px solid #FFF;
+}
+
+am-possession-bar .percentage h4 {
+    color:#FFF;
+    margin: 0;
+}

@@ -1,0 +1,67 @@
+player-card { }
+
+player-card > div {
+    background-color: #222222;
+    padding: 5px 0;
+    width: 75px;
+}
+
+player-card .circle {
+    width:40px;
+    height:40px;
+    border-radius: 40px;
+    background-color: #B4B4B4;
+    border: 4px solid #FFF;
+    box-shadow:0 0 10px rgba(0,0,0,.25);
+    position: relative;
+}
+
+player-card .circle i {
+    font-size: 40px;
+    background-color: #FFF;
+    border-radius: 50px;
+    position: absolute;
+    left: -1px;
+    top: -5px;
+}
+
+player-card .circle i.ion-checkmark-circled {
+    color:#5DA97B;
+}
+
+player-card .circle i.ion-close-circled {
+    color:#FF7373;
+}
+
+player-card h2 {
+    color:#FFF;
+    font-size: 18px;
+    margin:0;
+}
+
+player-card h3 {
+    color:#FFF;
+    text-align: center;
+    background-color: #B4B4B4;
+    padding: 4px;
+    margin:0;
+
+}
+
+player-card h4 {
+    color:#FFF;
+    text-align: center;
+    font-size: 14px;
+    width: 100%;
+    margin:0;
+
+}
+
+player-card .stat {
+    width: 100%;
+}
+
+player-card .edit input {
+    width: 15px;
+    text-align: center;
+}
