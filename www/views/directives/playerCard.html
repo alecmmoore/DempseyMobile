@@ -1,15 +1,16 @@
 <div class="flex flex-column flex-center" on-tap="addFirstStat()" on-hold="addSecondStat()">
     <div class="circle flex flex-center">
-        <h2>{{num}}</h2>
+        <h2>{{data.num}}</h2>
         <i ng-show="showFirst" class="icon ion-checkmark-circled"></i>
         <i ng-show="showSecond" class="icon ion-close-circled"></i>
     </div>
-    <h4 class="ellipse">{{name}}</h4>
+    <h4 class="ellipse">{{data.name}}</h4>
     <div class="stat">
-        <h3 ng-show="state === 'new'">{{firstStat}}<span ng-show="isSecondStat">/{{secondStat}}</span></h3>
+        <h3 ng-show="state === 'new' && isSub">{{data.type}}</h3>
+        <h3 ng-show="state === 'new' && !isSub">{{firstStat}}<span ng-show="isSecondStat">/{{secondStat}}</span></h3>
         <div ng-show="state === 'edit'" class="edit flex">
-            <input type="number" ng-model="firstStat" class="flex-one"/>
-            <input type="number" ng-model="secondStat" class="flex-one"/>
+            <input type="tel" ng-model="firstStat" class="flex-one"/>
+            <input ng-show="isSecondStat" type="tel" ng-model="secondStat" class="flex-one"/>
         </div>
     </div>
 </div>

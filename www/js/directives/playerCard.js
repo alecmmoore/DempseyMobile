@@ -3,13 +3,11 @@ dempsey.directive('playerCard', function () {
         restrict: 'E',
         templateUrl: './views/directives/playerCard.html',
         scope: {
-            sub: '=?',
-            name: '=?',
-            num: '=?',
+            data: '=',
+            isSub: '=?',
             isSecondStat: '=?'
         },
         link: function(scope, elem, attrs) {
-            scope.init(elem);
         },
         controller: function($scope, $timeout) {
 
@@ -17,10 +15,7 @@ dempsey.directive('playerCard', function () {
             $scope.secondStat = 0;
             $scope.state = 'new';
 
-            console.log($scope.isSecondStat);
-
-            $scope.init = function(elem) { }
-
+            // Increments the count for the primary statistic for the player
             $scope.addFirstStat = function() {
                 if ($scope.state === 'edit') return;
 
@@ -36,6 +31,7 @@ dempsey.directive('playerCard', function () {
                 }, 500);
             }
 
+            // Increments the count for the secondary statistic for the player
             $scope.addSecondStat = function() {
                 if ($scope.state === 'edit') return;
 
@@ -46,6 +42,8 @@ dempsey.directive('playerCard', function () {
                 }, 500);
             }
 
+            // Listens for the state to change to edit or new and changes
+            // the local variable
             $scope.$on('changeState', function(msg, data) {
                 if (data.state) {
                     $scope.state = data.state;
