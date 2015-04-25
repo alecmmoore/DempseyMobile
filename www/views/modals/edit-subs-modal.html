@@ -1,0 +1,21 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Edit Substitutions</h1>
+        <div ng-click="closeModal()" class="buttons">
+            <button class="button button-clear">Done</button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="subs-page">
+        <div class="flex hero" ng-repeat="sub in subs">
+            <div class="flex flex-center-vertical">
+                <player-card data="sub.data.player1.data" is-sub="true"></player-card>
+                <i class="icon ion-chevron-left"></i>
+                <i class="icon ion-chevron-right"></i>
+                <player-card data="sub.data.player2.data" is-sub="true"></player-card>
+            </div>
+            <div class="flex flex-one flex-center close"ng-click="removeSub()">
+                <i class="icon ion-close"></i>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>

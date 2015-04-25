@@ -1,5 +1,5 @@
 dempsey.controller('subsController',
-    function subsController($scope, $rootScope) {
+    function subsController($scope, $rootScope, $ionicModal) {
         var self = this;
         self.state = 'new';
 
@@ -18,6 +18,8 @@ dempsey.controller('subsController',
             isPlayer: false,
             data: dummyPlayer
         };
+
+        $scope.subs = [];
 
         self.makeSub = function() {
             if ($scope.player1.isPlayer && $scope.player2.isPlayer) {
@@ -47,6 +49,16 @@ dempsey.controller('subsController',
                 player2.data.bench = temp.data.bench;
                 player2.data.x = temp.data.x;
                 player2.data.y = temp.data.y;
+
+                $scope.subs.push(
+                    {
+                        data: {
+                            isSub: player1.data.bench || player2.data.bench,
+                            player1: player1,
+                            player2: player2
+                        }
+                    }
+                );
 
                 self.resetSubs();
             }
@@ -88,6 +100,42 @@ dempsey.controller('subsController',
                 $scope.player2.isPlayer = true;
             }
         }
+
+        $scope.removeSub = function(sub) {
+            $scope.subs.splice(sub, 1);
+            // todo: Return player back to position
+        }
+
+        // Edit Modal
+        $ionicModal.fromTemplateUrl('views/modals/edit-subs-modal.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal = modal;
+        });
+
+        $scope.openModal = function() {
+            $scope.modal.show();
+        };
+
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
+
+        //Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+        });
+
+        // Execute action on hide modal
+        $scope.$on('modal.hidden', function() {
+            // Execute action
+        });
+
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function() {
+            // Execute action
+        });
 
         $scope.players = [
             { data: {
@@ -237,17 +285,7 @@ dempsey.controller('subsController',
         ];
 
         self.edit = function() {
-            if (self.state === 'new') {
-                self.state = 'edit';
-                $rootScope.$broadcast('changeState', {state: 'edit'});
-                return;
-            }
-
-            if (self.state === 'edit') {
-                $rootScope.$broadcast('changeState', {state: 'new'});
-                self.state = 'new';
-            }
-
+            $scope.openModal();
         }
 
     });
