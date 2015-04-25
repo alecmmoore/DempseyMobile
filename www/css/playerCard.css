@@ -3,8 +3,17 @@ player-card { }
 player-card > div {
     background-color: #222222;
     padding: 5px 0;
-    width: 75px;
+    width: 23vw;
+    position: relative;
 }
+
+    player-card.selected > div {
+        background-color: #f2f2f2;
+    }
+
+    player-card.selected > div > h4 {
+        color: #222;
+    }
 
 player-card .circle {
     width:40px;
@@ -56,6 +65,39 @@ player-card h4 {
     margin:0;
 
 }
+
+player-card .cards {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+
+player-card .cards .red,
+player-card .cards .yellow {
+    width: 7vw;
+    height: 9vw;
+}
+
+player-card .cards .red i,
+player-card .cards .yellow i {
+    font-size: 7vw;
+    color: #222;
+}
+
+player-card .cards .yellow {
+    background-color: #FFFF73;
+}
+
+player-card .cards .red {
+    background-color: #FF7373;
+}
+
+player-card .cards.double-yellow .red {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
 
 player-card .stat {
     width: 100%;

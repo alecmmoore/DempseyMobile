@@ -4,9 +4,15 @@
             {{foulsCtrl.state === 'new' ? 'Edit' : 'Done'}}
         </button>
     </ion-nav-buttons>
-    <ion-content class="passes-page">
-        <div class="hero">
-
+    <ion-content class="fouls-page field-page">
+        <div class="hero flex">
+            <div ng-click="foulsCtrl.setCard(1)" class="yellow flex flex-center">
+                <i ng-show="foulsCtrl.isYellow" class="icon ion-plus"></i>
+            </div>
+            <div ng-click="foulsCtrl.setCard(0)" class="red flex flex-center">
+                <i ng-show="!foulsCtrl.isYellow" class="icon ion-plus"></i>
+            </div>
+            <p class="flex-one">Select a card on the left and tap and hold on the player that received the appropriate card.</p>
         </div>
         <div>
             <div class="field">
@@ -14,13 +20,13 @@
                     <img ng-class="{'disabled': foulsCtrl.state === 'edit'}" src="img/full-field.svg" />
                 </div>
                 <div class="player-layer">
-                    <player-card data="player.data" ng-repeat="player in players track by $index" style="left:{{player.data.x}}%; top:{{player.datas.y}}%"></player-card>
+                    <player-card data="player.data" is-foul="true" ng-repeat="player in players track by $index" style="left:{{player.data.x}}%; top:{{player.data.y}}%"></player-card>
                 </div>
             </div>
             <div class="bench">
                 <h3>BENCH</h3>
                 <div>
-                    <player-card data="player.data" ng-repeat="player in bench track by $index"></player-card>
+                    <player-card data="player.data" is-foul="true" ng-repeat="player in bench track by $index"></player-card>
                 </div>
             </div>
         </div>

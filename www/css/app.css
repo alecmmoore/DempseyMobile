@@ -31,7 +31,8 @@ h4 {
 }
 
 p {
-    color:#B4B4B4;
+    color: #FFF;
+    line-height: 15px;
     font-family: "Myriad Pro Semibold", Helvetica, Arial, sans-serif;
 }
 
@@ -156,8 +157,8 @@ input.ng-invalid-required.ng-touched {
 }
 
 ion-header-bar.bar.bar-soccer {
-    background-color:#5DA97B;
-    border-color:#5DA97B;
+    background-color: #5DA97B !important;
+    border-color: #5DA97B !important;
 }
 
 .button-positive {
@@ -290,20 +291,16 @@ ion-content .hero h2 {
 
 }
 
-/* Passes Page */
-.passes-page {
-
-}
-
-.passes-page .field {
+/* Field Page */
+.field-page .field {
     position: relative;
 }
 
-.passes-page .field .back-layer img {
+.field-page .field .back-layer img {
     width: 100%;
 }
 
-.passes-page .field .player-layer {
+.field-page .field .player-layer {
     position: absolute;
     z-index: 1;
     top:0;
@@ -312,12 +309,62 @@ ion-content .hero h2 {
     height: 100%;
 }
 
-.passes-page .field player-card {
+.field-page .field player-card {
     position: absolute;
 }
 
-.passes-page .bench player-card {
+.field-page .bench player-card {
     float:left;
     margin-right: 2px;
     margin-bottom: 2px;
+}
+
+/* Fouls page */
+.fouls-page .hero .red,
+.fouls-page .hero .yellow {
+    width: 17vw;
+    height: 24vw;
+    margin: 0 2vw;
+}
+
+.fouls-page .hero .red i,
+.fouls-page .hero .yellow i {
+    font-size: 10vw;
+    color: #222;
+}
+
+.fouls-page .hero .yellow {
+    background-color: #FFFF73;
+}
+
+.fouls-page .hero .red {
+    background-color: #FF7373;
+}
+
+.fouls-page .hero p {
+    margin-left: 10px;
+}
+
+/* Subs page */
+.subs-page {
+
+}
+
+.subs-page .button-container {
+    padding-left: 10px;
+}
+
+.subs-page .button-container .button.button-block,
+.subs-page .button-container .button.button-full {
+    margin-top: 2px !important;
+    margin-bottom: 0 !important;
+}
+
+.subs-page .hero player-card > div {
+    border: 1px solid #444;
+}
+
+.subs-page .hero > div > i {
+    font-size: 6vw;
+    margin: 0 2vw;
 }

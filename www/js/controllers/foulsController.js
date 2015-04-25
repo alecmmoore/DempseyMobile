@@ -135,14 +135,23 @@ dempsey.controller('foulsController',
             }}
         ];
 
+        self.isYellow = 1;
+        self.setCard = function(card) {
+            self.isYellow = card;
+            // Received in playerCard.js for when the foul card state changes
+            $rootScope.$broadcast('cardStateChanged', {state: card ? 'yellow' : 'red'});
+        }
+
         self.edit = function() {
             if (self.state === 'new') {
                 self.state = 'edit';
+                // Received in playerCard.js for when the edit state changes
                 $rootScope.$broadcast('changeState', {state: 'edit'});
                 return;
             }
 
             if (self.state === 'edit') {
+                // Received in playerCard.js for when the edit state changes
                 $rootScope.$broadcast('changeState', {state: 'new'});
                 self.state = 'new';
             }

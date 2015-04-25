@@ -1,4 +1,12 @@
 <div class="flex flex-column flex-center" on-tap="addFirstStat()" on-hold="addSecondStat()">
+    <div class="cards" ng-class="{'double-yellow': isYellow && isRed}">
+        <div ng-show="isFoul && isYellow" ng-click="removeCard()" class="yellow flex flex-center">
+            <i ng-show="state === 'edit'" class="icon ion-close"></i>
+        </div>
+        <div ng-show="isFoul && isRed" ng-click="removeCard()" class="red flex flex-center">
+            <i ng-show="state === 'edit'" class="icon ion-close"></i>
+        </div>
+    </div>
     <div class="circle flex flex-center">
         <h2>{{data.num}}</h2>
         <i ng-show="showFirst" class="icon ion-checkmark-circled"></i>
