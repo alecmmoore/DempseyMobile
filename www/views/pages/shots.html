@@ -67,6 +67,42 @@
                 </div>
             </div>
             <form name="shotForm" class="details list">
+                <div class="list flex">
+                    <div class="flex-one">
+                        <label class="item item-radio">
+                            <input type="radio" ng-model="shotsCtrl.currentShot.type" value="goal" name="group">
+                            <div class="item-content">
+                                Goal
+                            </div>
+                            <i class="radio-icon ion-checkmark"></i>
+                        </label>
+                        <label class="item item-radio">
+                            <input type="radio" ng-model="shotsCtrl.currentShot.type" value="on" name="group">
+                            <div class="item-content">
+                                On Goal
+                            </div>
+                            <i class="radio-icon ion-checkmark"></i>
+                        </label>
+                    </div>
+                    <div class="flex-one">
+                        <label class="item item-radio">
+                            <input type="radio" ng-model="shotsCtrl.currentShot.type" value="off" name="group">
+                            <div class="item-content">
+                                Off Goal
+                            </div>
+                            <i class="radio-icon ion-checkmark"></i>
+                        </label>
+                        <label class="item item-radio">
+                            <input type="radio" ng-model="shotsCtrl.currentShot.type" value="blocked" name="group">
+                            <div class="item-content">
+                                Blocked
+                            </div>
+                            <i class="radio-icon ion-checkmark"></i>
+                        </label>
+                    </div>
+
+                </div>
+                 <!--
                 <label class="item item-input item-select">
                     <div class="input-label">
                         Type
@@ -79,7 +115,7 @@
                         <option value="blocked">Blocked</option>
                     </select>
                 </label>
-
+                  -->
                 <label class="item item-input item-select">
                     <div class="input-label">
                         Taken By

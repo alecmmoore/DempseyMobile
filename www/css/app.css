@@ -131,6 +131,16 @@ input.ng-invalid-required.ng-touched {
     flex: initial !important;
 }
 
+.img-container {
+    height: 30px;
+    width: 30px;
+    overflow: hidden;
+}
+
+.img-container img {
+    width: 100%;
+}
+
 .disabled {
     opacity: 0.25;
     pointer-events:none;
@@ -156,6 +166,10 @@ input.ng-invalid-required.ng-touched {
     position: relative;
 }
 
+.empty {
+    margin-top: 10px;
+}
+
 ion-header-bar.bar.bar-soccer {
     background-color: #5DA97B !important;
     border-color: #5DA97B !important;
@@ -164,6 +178,11 @@ ion-header-bar.bar.bar-soccer {
 .button-positive {
     background-color:#5DA97B !important;
     border-color:#5DA97B !important;
+}
+
+.button-calm {
+    background-color:#1C3D68 !important;
+    border-color:#1C3D68 !important;
 }
 
 .button-assertive {
@@ -186,10 +205,29 @@ ion-content .body {
 ion-content .hero h2 {
     color:#FFF;
     margin: 0 10px;
+    /*min-width: 58px; */
 }
 
+/* Login Page */
+.login-page {
+
+}
+
+.login-page p {
+    color:#DDD;
+}
+
+/* Home Page */
 .home-page .list {
     padding: 0 !important;
+}
+
+.home-page .submit {
+    background-color:#5DA97B;
+}
+
+.home-page .submit h3 {
+    color:#FFF !important;
 }
 
 .home-page .list .row {
@@ -346,6 +384,15 @@ ion-content .hero h2 {
     margin-left: 10px;
 }
 
+/* Games page */
+.games-page {
+
+}
+
+.games-page .hero label {
+    width: 100%;
+}
+
 /* Subs page */
 .subs-page {
 
@@ -373,4 +420,45 @@ ion-content .hero h2 {
 .subs-page .hero .close i {
     font-size: 10vw;
     margin: 0 2vw;
+}
+
+/* Misc Build */
+.misc-page .hero h4 {
+    color:#5DA97B;
+}
+
+.misc-page h1 {
+    color:#FFF;
+    margin-bottom: 0;
+}
+
+.misc-page .icon {
+    font-size: 32px;
+    color:#FFF;
+}
+
+.misc-page .hero {
+    min-height: 205px;
+}
+
+.misc-page .scroll > div.hero:nth-child(2) {
+    background-color: transparent;
+}
+
+.misc-page .hero > div:first-child {
+    margin: 0 4vw;
+}
+
+.misc-page .hero > div:first-child img {
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+
+.misc-page .hero > div:last-child .count {
+    background-color:#5DA97B;
+    margin: 0 1px;
+}
+
+.misc-page .hero > div > div:not(.count) {
+    background-color: #444;
 }

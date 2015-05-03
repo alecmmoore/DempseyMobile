@@ -1,0 +1,43 @@
+<ion-view view-title="Home" ng-controller="gamesController as gamesCtrl">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="gamesCtrl.logout()">
+            Logout
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="games-page">
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="gamesCtrl.doRefresh()">
+        </ion-refresher>
+        <div class="hero flex flex-center-vertical">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Select A Team
+                </div>
+                <select ng-options="o.name for o in gamesCtrl.teams" ng-model="gamesCtrl.currentTeam">
+                </select>
+            </label>
+        </div>
+        <div class="list">
+            <h3 ng-show="!gamesCtrl.games[0].length" class="text-center empty">No Games Found</h3>
+            <div ng-click="gamesCtrl.selectGame(game)" ng-repeat="game in gamesCtrl.games[0]" class="hero flex flex-center-vertical">
+                <div class="flex flex-center-vertical">
+                    <div class="img-container flex flex-center flex-one">
+                        <img src="" ng-src="{{game.team.photo}}"/>
+                    </div>
+                    <h2>{{game.team.symbol}}</h2>
+                </div>
+                <div class="flex-one">
+                    <p class="text-center">{{game.date | date:"MM/dd/yyyy 'at' h:mma"}}</p>
+                </div>
+                <div class="flex flex-center-vertical">
+                    <h2>{{game.opponent.symbol}}</h2>
+                    <div class="img-container flex flex-center flex-one">
+                        <img src="img/sample/logo-small.png"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>

@@ -3,16 +3,15 @@
         <div class="hero flex flex-center-vertical">
             <div class="flex flex-center-vertical">
                 <div class="img-container flex flex-center flex-one">
-                    <img src="img/sample/logo-small.png"/>
+                    <img src="" ng-src="{{homeCtrl.currentGame.team.photo}}"/>
                 </div>
-                <h2>SEA</h2>
+                <h2>{{homeCtrl.currentGame.team.symbol}}</h2>
             </div>
             <div class="flex-one">
-                <p class="text-center">APRIL 23, 2015</p>
-                <p class="text-center">3:00PM</p>
+                <p class="text-center">{{homeCtrl.currentGame.date | date:"MM/dd/yyyy 'at' h:mma"}}</p>
             </div>
             <div class="flex flex-center-vertical">
-                <h2>FCD</h2>
+                <h2>{{homeCtrl.currentGame.opponent.symbol}}</h2>
                 <div class="img-container flex flex-center flex-one">
                     <img src="img/sample/logo-small.png"/>
                 </div>
@@ -86,7 +85,7 @@
                     </div>
 
                 </a>
-                <a class="col flex flex-center">
+                <a class="submit col flex flex-center">
                     <h3>SUBMIT<br/>STATS</h3>
                 </a>
             </div>

@@ -7,7 +7,7 @@ dempsey.controller('shotsController',
         self.currentShot = {
             takenBy: '',
             assistedBy: '',
-            type: '',
+            type: 'goal',
             shotPos: {x: 50, y: 75},
             resultPos: {x: 50, y: 15}
         }

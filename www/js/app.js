@@ -10,6 +10,14 @@ var dempsey = angular.module('dempsey', ['ionic'])
                 url: '/index',
                 templateUrl: 'views/pages/home.html'
             })
+            .state('games', {
+                url: '/games',
+                templateUrl: 'views/pages/games.html'
+            })
+            .state('login', {
+                url: '/login',
+                templateUrl: 'views/pages/login.html'
+            })
             .state('possession', {
                 url: '/possession',
                 templateUrl: 'views/pages/possession.html'
@@ -38,7 +46,7 @@ var dempsey = angular.module('dempsey', ['ionic'])
                 url: '/misc',
                 templateUrl: 'views/pages/misc.html'
             });
-            $urlRouterProvider.otherwise('/index')
+            $urlRouterProvider.otherwise('/login')
     })
 
     .run(function($ionicPlatform) {

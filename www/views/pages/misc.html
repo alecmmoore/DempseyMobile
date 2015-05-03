@@ -1,5 +1,59 @@
-<ion-view view-title="Miscellaneous">
-    <ion-content>
-        <h1>Miscellaneous</h1>
+<ion-view view-title="Miscellaneous" ng-controller="miscController as miscCtrl">
+    <ion-content class="misc-page">
+
+        <div class="hero flex">
+            <div class="flex flex-center flex-column flex-one">
+                <img src="img/saves-icon.svg"/>
+                <h4>SAVES</h4>
+            </div>
+            <div class="flex flex-two">
+                <div ng-click="miscCtrl.subProp('saves')" class="flex-one flex flex-center">
+                    <i class="icon ion-minus"></i>
+                </div>
+                <div class="count flex-one flex flex-center">
+                    <h1>{{miscCtrl.saves}}</h1>
+                </div>
+                <div ng-click="miscCtrl.addProp('saves')" class="flex-one flex flex-center">
+                    <i class="icon ion-plus"></i>
+                </div>
+             </div>
+        </div>
+
+        <div class="hero flex">
+            <div class="flex flex-center flex-column flex-one">
+                <img src="img/corner-icon.svg"/>
+                <h4>CORNERS</h4>
+            </div>
+            <div class="flex flex-two">
+                <div ng-click="miscCtrl.subProp('corners')" class="flex-one flex flex-center">
+                    <i class="icon ion-minus"></i>
+                </div>
+                <div class="count flex-one flex flex-center">
+                    <h1>{{miscCtrl.corners}}</h1>
+                </div>
+                <div ng-click="miscCtrl.addProp('corners')" class="flex-one flex flex-center">
+                    <i class="icon ion-plus"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero flex">
+            <div class="flex flex-center flex-column flex-one">
+                <img src="img/offside-icon.svg"/>
+                <h4>OFFSIDES</h4>
+            </div>
+            <div class="flex flex-two">
+                <div ng-click="miscCtrl.subProp('offsides')" class="flex-one flex flex-center">
+                    <i class="icon ion-minus"></i>
+                </div>
+                <div class="count flex-one flex flex-center">
+                    <h1>{{miscCtrl.offsides}}</h1>
+                </div>
+                <div ng-click="miscCtrl.addProp('offsides')" class="flex-one flex flex-center">
+                    <i class="icon ion-plus"></i>
+                </div>
+            </div>
+        </div>
+
     </ion-content>
 </ion-view>

@@ -1,0 +1,51 @@
+.toast-container {
+    position: fixed;
+    z-index: 4;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.toast-container .toast {
+    margin-top: 10px;
+    padding: 20px;
+    background-color: #F2F2F2;
+}
+
+.toast-container .toast p {
+    padding: 0 20px;
+}
+
+.toast-container .toast.error {
+    -webkit-animation: wiggleFailKeyframes .3s ease-in 0s 1;
+    animation: wiggleFailKeyframes .3s ease-in 0s 1;
+    background-color: #FF7373;
+    color:#FFF;
+}
+
+.toast-container .toast.success {
+    -webkit-animation: wigglePassKeyframes .3s ease-in 0s 1 forwards, slideOutKeyframes .2s ease-in 5.3s 1 forwards;
+    animation: wigglePassKeyframes .3s ease-in 0s 1 forwards, slideOutKeyframes .2s ease-in 5.3s 1 forwards;
+    background-color: #5DA97B;
+    color:#FFF;
+}
+
+.toast-container .toast.slideIn {
+    -webkit-animation-name: slideInKeyframes;
+    -webkit-animation-duration: .4s;
+    -webkit-animation-fill-mode: forwards;
+    animation-name: slideInKeyframes;
+    animation-duration: .4s;
+    animation-fill-mode: forwards;
+}
+
+.toast-container .toast.slideOut {
+    -webkit-animation-name: slideOutKeyframes;
+    -webkit-animation-duration: .2s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-timing-function: ease-in;
+    animation-name: slideOutKeyframes;
+    animation-duration: .2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+}

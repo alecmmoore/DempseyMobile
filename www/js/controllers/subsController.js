@@ -106,14 +106,6 @@ dempsey.controller('subsController',
             // todo: Return player back to position
         }
 
-        // Edit Modal
-        $ionicModal.fromTemplateUrl('views/modals/edit-subs-modal.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function(modal) {
-            $scope.modal = modal;
-        });
-
         $scope.openModal = function() {
             $scope.modal.show();
         };
@@ -285,7 +277,20 @@ dempsey.controller('subsController',
         ];
 
         self.edit = function() {
-            $scope.openModal();
+            // Edit Modal
+            if ($scope.modal){
+                $scope.openModal();
+            }
+            else {
+                $ionicModal.fromTemplateUrl('views/modals/edit-subs-modal.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function(modal) {
+                    $scope.modal = modal;
+                    $scope.openModal();
+                });
+            }
+
         }
 
     });

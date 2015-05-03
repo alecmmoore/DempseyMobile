@@ -30,11 +30,18 @@ dempsey.factory('viewService', function ($location, $timeout) {
             });
 
             return isValid;
+        }
+        ,logOut = function() {
+            Parse.User.logOut();
+            window.localStorage['games'] = [];
+            window.localStorage['teams'] = [];
+            goToPage('/login');
         };
 
     return {
         goToPage: goToPage,
-        validateAreaByFormName: validateAreaByFormName
+        validateAreaByFormName: validateAreaByFormName,
+        logOut: logOut
     }
 
 });
