@@ -1,140 +1,44 @@
 dempsey.controller('tacklesController',
-    function tacklesController($scope, $rootScope) {
+    function tacklesController($scope, $timeout, $rootScope, configService, dataService) {
         var self = this;
         self.state = 'new';
 
-        $scope.players = [
-        { data: {
-                type: "GK",
-                name: 'Frei',
-                num: 24,
-                x: 38,
-                y: 76
-            }
-        },
-        { data: {
-                type: "CB",
-                name: 'Gonzales',
-                num: 12,
-                x: 1,
-                y: 52
-            }
-        },
-        { data: {
-            type: "CB",
-                name: 'Marshall',
-                num: 14,
-                x: 26,
-                y: 52
-            }
-        },
-        { data:{
-                type: "CB",
-                name: 'Evans',
-                num: 3,
-                x: 51,
-                y: 52
-            }
-        },
-        { data:{
-                type: "CB",
-                name: 'Mears',
-                num: 4,
-                x: 76,
-                y: 52
-            }
-        },
+        $scope.players = [];
+        $scope.bench = [];
+        self.isBusy = true;
 
-        { data:{
-                type: "CM",
-                name: 'Neagle',
-                num: 27,
-                x: 1,
-                y: 28
-            }
-        },
-        { data: {
-                type: "CM",
-                name: 'Pineda',
-                num: 8,
-                x: 26,
-                y: 28
-            }
-        },
-        { data:{
-                type: "CM",
-                name: 'Alonso',
-                num: 6,
-                x: 51,
-                y: 28
-            }
-        },
-        { data:{
-                type: "CM",
-                name: 'Pappa',
-                num: 10,
-                x: 76,
-                y: 28
-            }
-        },
+        $scope.$on('$ionicView.enter', function(event) {
+            var allPlayers = dataService.getLocalPlayers(true);
+            var positions = dataService.getPositions();
+            _.each(allPlayers, function(item, index) {
+                if (index < positions.length) {
+                    item.player.x = positions[index].x;
+                    item.player.y = positions[index].y;
+                    $scope.players.push({data: item.player});
+                }
+                else {
+                    $scope.bench.push({data: item.player});
+                }
+            });
 
-        { data:{
-                type: "ST",
-                name: 'Dempsey',
-                num: 2,
-                x: 26,
-                y: 3
-            }
-        },
-        { data:{
-                type: "ST",
-                name: 'Martins',
-                num: 9,
-                x: 51,
-                y: 3
-            }
-        }
-        ];
+            $timeout(function() {
+                // Load existing data from local storage
+                var localStats = dataService.getLocalGamesStatsByKey('tackles');
 
-        $scope.bench = [
-            { data:{
-                type: "ST",
-                name: 'Barret',
-                num: 19
-            }},
-            { data:{
-                type: "LM",
-                name: 'Kovar',
-                num: 11
-            }},
-            { data:{
-                type: "RB",
-                name: 'Fisher',
-                num: 91
-            }},
-            { data:{
-                type: "ST",
-                name: 'Mansaray',
-                num: 80
-            }},
-            { data:{
-                type: "CM",
-                name: 'Rose',
-                num: 5
-            }},
+                _.each(localStats, function(item) {
+                    $rootScope.$broadcast(configService.messages.loadPlayerCardData, { data: item });
+                });
 
-            { data:{
-                type: "CB",
-                name: 'Scott',
-                num: 20
-            }},
-            { data:{
-                type: "CM",
-                name: 'Roldan',
-                num: 7
-            }}
-        ];
+                self.isBusy = false;
 
+            });
+
+        });
+
+        self.statChanged = function(data) {
+            // tackle made
+            dataService.setLocalGameStats('tackles', data, true);
+        };
 
         self.edit = function() {
             if (self.state === 'new') {

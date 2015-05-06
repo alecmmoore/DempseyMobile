@@ -10,6 +10,7 @@ dempsey.factory('configService', function () {
             , updateTeam: 'updateTeam'
             , updatePlayer : 'updatePlayer'
             , teamSet : 'teamSet'
+            , loadPlayerCardData: 'loadPlayerCardData'
 
         }, toasts: {
             general: function(action, type, success){

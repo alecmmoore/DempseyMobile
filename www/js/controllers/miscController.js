@@ -1,5 +1,5 @@
 dempsey.controller('miscController',
-    function miscController($scope) {
+    function miscController(dataService) {
         var self = this;
         self.state = 'new';
 
@@ -8,17 +8,18 @@ dempsey.controller('miscController',
         self.offsides = 0;
 
         self.addProp = function(prop) {
-            console.log(self[prop]);
             if (self.hasOwnProperty(prop)) {
                 self[prop] += 1;
+                dataService.setLocalGameStats(prop, self[prop], true);
             }
         }
 
         self.subProp = function(prop) {
             if (self.hasOwnProperty(prop) && self[prop] > 0) {
                 self[prop] -= 1;
+                dataService.setLocalGameStats(prop, self[prop], true);
             }
-        }
+        };
 
         self.edit = function() {
 

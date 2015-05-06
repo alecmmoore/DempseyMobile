@@ -1,14 +1,12 @@
 dempsey.controller('gamesController',
     function gamesController($scope, $timeout, dataService, viewService) {
-        var self = this;
-
+        var self = this
+          , allGames = [];
         //self.currentTeam = dataService.getCurrentTeam();
 
-        self.teams = dataService.getLocalTeams();
-        self.currentTeam = self.teams[0];
-
-        var allGames = dataService.getLocalGames();
-        self.games = [];
+        $scope.$on('$ionicView.enter', function(event) {
+            self.init();
+        });
 
         self.selectTeam = function() {
             self.games = [];
@@ -28,21 +26,36 @@ dempsey.controller('gamesController',
             return self.currentTeam;
         }, function(newVal, oldVal) {
             if (newVal === oldVal) { return; }
+            dataService.setLocalTeam(self.currentTeam);
             self.selectTeam();
         });
 
-        self.init = (function() {
+        self.init = function() {
             $timeout(function() {
+                self.teams = dataService.getLocalTeams();
+                self.currentTeam = self.teams[0];
+
+                allGames = dataService.getLocalGames();
+                self.games = [];
+
+                dataService.setLocalTeam(self.currentTeam);
                 self.selectTeam();
             });
-        })();
+        };
 
         self.doRefresh = function() {
-            console.log('Refresh');
 
-            // Stop the ion-refresher from spinning
-            $scope.$broadcast('scroll.refreshComplete');
-        }
+            // Reloads and re-queries the data
+            dataService.clearLocalStorage();
+            dataService.init(function() {
+
+                self.init();
+                // Stop the ion-refresher from spinning
+                $scope.$broadcast('scroll.refreshComplete');
+
+            });
+
+        };
 
         self.logout = function() {
             viewService.logOut();

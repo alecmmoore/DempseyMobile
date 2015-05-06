@@ -5,22 +5,25 @@
         </button>
     </ion-nav-buttons>
     <ion-content class="passes-page field-page">
-        <div class="hero">
+        <div class="loading flex flex-center" ng-show="passCtrl.isBusy">
+            <ion-spinner icon="ripple"></ion-spinner>
+        </div>
+        <div ng-show="!passCtrl.isBusy" class="hero">
 
         </div>
-        <div>
+        <div ng-show="!passCtrl.isBusy">
             <div class="field">
                 <div class="back-layer">
                     <img ng-class="{'disabled': passCtrl.state === 'edit'}" src="img/full-field.svg" />
                 </div>
                 <div class="player-layer">
-                    <player-card is-second-stat="true" data="player.data" ng-repeat="player in players track by $index" style="left:{{player.data.x}}%; top:{{player.data.y}}%"></player-card>
+                    <player-card is-second-stat="true" stat-changed="passCtrl.statChanged(data)" data="player.data" ng-repeat="player in players track by $index" style="left:{{player.data.x}}%; top:{{player.data.y}}%"></player-card>
                 </div>
             </div>
             <div class="bench">
                 <h3>BENCH</h3>
                 <div>
-                    <player-card is-second-stat="true" data="player.data" ng-repeat="player in bench track by $index"></player-card>
+                    <player-card is-second-stat="true" stat-changed="passCtrl.statChanged(data)" data="player.data" ng-repeat="player in bench track by $index"></player-card>
                 </div>
             </div>
         </div>

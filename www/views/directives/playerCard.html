@@ -8,11 +8,11 @@
         </div>
     </div>
     <div class="circle flex flex-center">
-        <h2>{{data.num}}</h2>
+        <h2>{{data.jerseyNumber}}</h2>
         <i ng-show="showFirst" class="icon ion-checkmark-circled"></i>
         <i ng-show="showSecond" class="icon ion-close-circled"></i>
     </div>
-    <h4 class="ellipse">{{data.name}}</h4>
+    <h4 class="ellipse">{{data.lastName || data.name || 'No Name' }}</h4>
     <div class="stat">
         <h3 ng-show="state === 'new' && isSub">{{data.type}}</h3>
         <h3 ng-show="state === 'new' && !isSub">{{firstStat}}<span ng-show="isSecondStat">/{{secondStat}}</span></h3>

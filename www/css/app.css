@@ -167,7 +167,11 @@ input.ng-invalid-required.ng-touched {
 }
 
 .empty {
-    margin-top: 10px;
+    margin-top: 10px !important;
+}
+
+.loading {
+    margin-top: 52%;
 }
 
 ion-header-bar.bar.bar-soccer {
@@ -195,7 +199,7 @@ ion-content .hero {
     background-color: #222;
     border-bottom: 1px solid #444;
     color:#FFF;
-    padding: 25px 10px;
+    padding: 35px 10px;
 }
 
 ion-content .body {
@@ -204,8 +208,11 @@ ion-content .body {
 
 ion-content .hero h2 {
     color:#FFF;
+}
+
+ion-content .hero > div:not(.stat) > h2 {
     margin: 0 10px;
-    /*min-width: 58px; */
+    min-width: 58px;
 }
 
 /* Login Page */
@@ -329,6 +336,26 @@ ion-content .hero h2 {
     margin-top: 20px;
 
 }
+
+/* Edit Shots Modal */
+.edit-shots-modal .selected {
+    background-color:#5DA97B;
+}
+
+.edit-shots-modal .selected h3,
+.edit-shots-modal .selected p {
+    color:#FFF;
+}
+
+.edit-shots-modal .hero {
+    margin-bottom: 0 !important;
+}
+
+.edit-shots-modal .button-container {
+    padding: 0 10px;
+    
+}
+
 
 /* Field Page */
 .field-page .field {

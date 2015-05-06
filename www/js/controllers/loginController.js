@@ -3,7 +3,7 @@ dempsey.controller('loginController',
         var self = this;
 
         self.user = {
-            email: 'coach@mailinator.com',
+            email: 'Sounders@mailinator.com',
             password: '123'
         };
 

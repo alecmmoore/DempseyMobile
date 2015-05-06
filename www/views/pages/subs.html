@@ -5,7 +5,10 @@
         </button>
     </ion-nav-buttons>
     <ion-content class="subs-page field-page">
-        <div class="hero flex">
+        <div class="loading flex flex-center" ng-show="subsCtrl.isBusy">
+            <ion-spinner icon="ripple"></ion-spinner>
+        </div>
+        <div ng-show="!subsCtrl.isBusy" class="hero flex">
             <div class="flex flex-center-vertical">
                 <player-card data="player1.data" is-sub="true"></player-card>
                 <i class="icon ion-chevron-left"></i>
@@ -21,19 +24,19 @@
                 </button>
             </div>
         </div>
-        <div>
+        <div ng-show="!subsCtrl.isBusy">
             <div class="field">
                 <div class="back-layer">
                     <img ng-class="{'disabled': subsCtrl.state === 'edit'}" src="img/full-field.svg" />
                 </div>
                 <div class="player-layer">
-                    <player-card ng-if="!player.data.bench" data="player.data" is-sub="true" sub-clicked="subsCtrl.subClicked(data)" ng-class="{'selected': player1.data === player.data || player2.data === player.data}" ng-repeat="player in players track by $index" style="left:{{player.data.x}}%; top:{{player.data.y}}%"></player-card>
+                    <player-card ng-if="!player.data.isBench" data="player.data" is-sub="true" sub-clicked="subsCtrl.subClicked(data)" ng-class="{'selected': player1.data === player.data || player2.data === player.data}" ng-repeat="player in players track by $index" style="left:{{player.data.x}}%; top:{{player.data.y}}%"></player-card>
                 </div>
             </div>
             <div class="bench">
                 <h3>BENCH</h3>
                 <div>
-                    <player-card ng-if="player.data.bench" data="player.data" is-sub="true" sub-clicked="subsCtrl.subClicked(data)" ng-class="{'selected': player1.data === player.data || player2.data === player.data}" ng-repeat="player in players track by $index"></player-card>
+                    <player-card ng-if="player.data.isBench" data="player.data" is-sub="true" sub-clicked="subsCtrl.subClicked(data)" ng-class="{'selected': player1.data === player.data || player2.data === player.data}" ng-repeat="player in players track by $index"></player-card>
                 </div>
             </div>
         </div>

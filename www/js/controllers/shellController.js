@@ -4,8 +4,7 @@ dempsey.controller('shellController',
         $scope.currentPage = 'login';
 
         $scope.$on('$ionicView.enter', function(event) {
-            console.log(event);
-            $scope.hideLoading();
+            //console.log(event);
         });
 
         $scope.showLoading = function() {
@@ -20,7 +19,6 @@ dempsey.controller('shellController',
         $scope.$on('$locationChangeSuccess', function (next, current) {
             $timeout(function() {
                 // check if user is logged in if accessing most pages
-                $scope.showLoading();
                 if ($scope.currentPage != 'login'){
                     if (Parse.User.current()){
                         console.log("user logged in");

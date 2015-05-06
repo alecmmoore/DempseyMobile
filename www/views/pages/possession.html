@@ -1,29 +1,34 @@
 <ion-view view-title="Possession" ng-controller="possessionController as posCtrl">
     <ion-content class="possession-page">
-        <div class="hero">
+        <div class="loading flex flex-center" ng-show="posCtrl.isBusy">
+            <ion-spinner icon="ripple"></ion-spinner>
+        </div>
+        <div ng-show="!posCtrl.isBusy" class="hero">
             <div class="flex flex-center-vertical">
                 <div class="flex flex-center-vertical">
                     <div class="img-container flex flex-center flex-one">
-                        <img src="img/sample/logo-small.png"/>
+                        <img src="" ng-src="{{posCtrl.currentGame.team.photo}}"/>
                     </div>
-                    <h2>SEA</h2>
+                    <h2>{{posCtrl.currentGame.team.symbol}}</h2>
                 </div>
                 <div class="flex-one"></div>
                 <div class="flex flex-center-vertical">
-                <h2>FCD</h2>
+                <h2>{{posCtrl.currentGame.opponent.symbol}}</h2>
                 <div class="img-container flex flex-center flex-one">
                     <img src="img/sample/logo-small.png"/>
                 </div>
             </div>
             </div>
-            <am-possession-bar data="possession.data"></am-possession-bar>
+            <am-possession-bar data="posCtrl.possession.data"></am-possession-bar>
         </div>
 
-        <div class="body">
+        <div ng-show="!posCtrl.isBusy" class="body">
             <div class="flex">
 
                 <div ng-click="posCtrl.setSelected(0)" ng-class="{'selected': posCtrl.getSelected(0)}" class="team flex-one flex flex-center">
-                    <img src="img/sample/logo-small.png"/>
+                    <div class="img-container">
+                        <img src="" ng-src="{{posCtrl.currentGame.team.photo}}"/>
+                    </div>
                 </div>
 
                 <div ng-click="posCtrl.setSelected(1)" ng-class="{'selected': posCtrl.getSelected(1)}" class="opponent flex-one flex flex-center">
@@ -34,12 +39,12 @@
 
             <br/>
 
-            <p class="description">
-                Possession is determined by which team has control of the ball.
-                <br/>
-                <br/>
-                Click on the icon of the team that has possession of the ball and record each subsequent change in possession to determine the percentage of possession at the end of the game.
-            </p>
+           <div class="list">
+               <div class="item flex" ng-repeat="event in posCtrl.possessionEvents | orderBy: '-timeStamp' : false ">
+                    <h3 class="flex-one">{{event.team ? posCtrl.currentGame.team.name : posCtrl.currentGame.opponent.name}}</h3>
+                    <p>{{$last ? 'Start' : event.duration}} <span ng-show="!$last">sec</span></p>
+               </div>
+           </div>
         </div>
     </ion-content>
 </ion-view>

@@ -7,11 +7,12 @@ dempsey.directive('playerCard', function () {
             isSub: '=?',
             subClicked: '&?',
             isFoul: '=?',
-            isSecondStat: '=?'
+            isSecondStat: '=?',
+            statChanged: '&?'
         },
         link: function(scope, elem, attrs) {
         },
-        controller: function($scope, $timeout) {
+        controller: function($scope, configService, $timeout) {
 
             $scope.firstStat = 0;
             $scope.secondStat = 0;
@@ -37,11 +38,15 @@ dempsey.directive('playerCard', function () {
                 $timeout(function() {
                     $scope.showFirst = false;
                 }, 500);
+
             }
 
             // Increments the count for the secondary statistic for the player
             $scope.addSecondStat = function() {
                 if ($scope.state === 'edit') return;
+
+                // If player card is keeping track of subs
+                if ($scope.isSub && $scope.subClicked) { return; }
 
                 // If player card is keeping track of fouls
                 // make the tap and hold toggle to cards
@@ -59,6 +64,7 @@ dempsey.directive('playerCard', function () {
                         $scope.isRed = true;
 
                     }
+                    $scope.updateParent();
                     return;
                 }
 
@@ -69,6 +75,15 @@ dempsey.directive('playerCard', function () {
                 }, 500);
             }
 
+
+            $scope.$watchCollection('[firstStat, secondStat]', function(newVal, oldVal) {
+                if (newVal === oldVal) { return; }
+
+                if ($scope.statChanged) {
+                    $scope.updateParent();
+                }
+            });
+
             // Listens for the state to change to edit or new and changes
             // the local variable
             $scope.$on('changeState', function(msg, data) {
@@ -76,6 +91,22 @@ dempsey.directive('playerCard', function () {
                     $scope.state = data.state;
                 }
             });
+
+            // Update parent with the current state of the player object to be committed to local storage
+            $scope.updateParent = function() {
+
+                if ($scope.isFoul) {
+                    $scope.statChanged({data: { player: $scope.data.objectId, fouls: parseInt($scope.firstStat), isRed: $scope.isRed, isYellow: $scope.isYellow } });
+                    return;
+                }
+
+                if ($scope.isSecondStat) {
+                    $scope.statChanged({data: { player: $scope.data.objectId, first: parseInt($scope.firstStat), second: parseInt($scope.secondStat) } });
+                    return;
+                }
+
+                $scope.statChanged({data:  {player: $scope.data.objectId, first: parseInt($scope.firstStat) } });
+            };
 
             // Fouls
             $scope.isCard = false;
@@ -86,8 +117,32 @@ dempsey.directive('playerCard', function () {
                 $scope.isCard = false;
                 $scope.isYellow = false;
                 $scope.isRed = false;
+                $scope.updateParent();
             }
 
+            $scope.$on(configService.messages.loadPlayerCardData, function(msg, data) {
+                console.log(data);
+                if (data.data && data.data.player === $scope.data.objectId) {
+
+                    if ($scope.isFoul) {
+                        $scope.firstStat = data.data.fouls;
+                        $scope.isYellow = data.data.isYellow;
+                        $scope.isRed = data.data.isRed;
+                    }
+                    else {
+                        if (data.data.first) {
+                            $scope.firstStat = data.data.first;
+                        }
+
+                        if (data.data.second) {
+                            $scope.secondStat = data.data.second;
+                        }
+                    }
+                }
+            });
+
+            // Message received from the fouls page
+            // Indicates if the tap and hold should give a yellow or a red card to the player
             $scope.$on('cardStateChanged', function(msg, data) {
                 if (data.state) {
                     $scope.cardState = data.state;

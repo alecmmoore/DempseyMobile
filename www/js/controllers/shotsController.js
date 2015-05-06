@@ -1,5 +1,5 @@
 dempsey.controller('shotsController',
-    function shotsController($scope, $window, $ionicScrollDelegate, viewService) {
+    function shotsController($scope, $timeout, $window, $ionicScrollDelegate, $ionicModal, viewService, dataService) {
         var self = this;
 
         self.state = 'new';
@@ -14,11 +14,39 @@ dempsey.controller('shotsController',
 
         // Shot Types: off, on, goal, blocked
         $scope.shots = [];
+        $scope.players = [];
 
         // Shot counts
         $scope.on = 0;
         $scope.off = 0;
         $scope.blocked = 0;
+
+        $scope.$on('$ionicView.enter', function(event) {
+
+            // Load players
+            $scope.players = dataService.getLocalPlayers(true);
+            console.log($scope.players);
+
+            $timeout(function() {
+
+                // Load existing data from local storage
+                $scope.shots = dataService.getLocalGamesStatsByKey('shots');
+
+                _.each($scope.shots, function(item) {
+                    // Increment shot type count
+                    if (item.type === 'goal') {
+                        $scope.on++;
+                    }
+                    else {
+                        $scope[item.type] += 1;
+                    }
+                });
+
+                self.isBusy = false;
+
+            });
+
+        });
 
         self.addShot = function(shot) {
             if (viewService.validateAreaByFormName('shotForm')) {
@@ -30,8 +58,11 @@ dempsey.controller('shotsController',
                     $scope[shot.type] += 1;
                     shot.assistedBy = '';
                 }
+                var thisShot = angular.copy(shot);
+                $scope.shots.push(thisShot);
 
-                $scope.shots.push(angular.copy(shot));
+                // Serialize to local storage
+                dataService.setLocalGameStats('shots', thisShot);
 
                 // Reset
                 self.currentShot.shotPos = {x: 50, y: 75};
@@ -42,6 +73,13 @@ dempsey.controller('shotsController',
         self.edit = function() {
             if (self.state === 'new') {
                 self.state = 'edit';
+                $ionicModal.fromTemplateUrl('views/modals/edit-shots-modal.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function(modal) {
+                    $scope.modal = modal;
+                    $scope.openModal();
+                });
                 return;
             }
 
@@ -51,7 +89,7 @@ dempsey.controller('shotsController',
 
         }
 
-        self.deleteShot = function(shot) {
+        $scope.deleteShot = function(shot) {
             // Increment shot type count
             if (shot.type === 'goal') {
                 if ($scope.on > 0) {
@@ -65,6 +103,11 @@ dempsey.controller('shotsController',
             }
 
             $scope.shots.splice($scope.shots.indexOf(shot),1);
+            dataService.deleteLocalGameStatsItem('shots', shot);
+            $timeout(function() {
+                $scope.selectedShot = {};
+            });
+
         }
 
         self.dragHandle = function(event, type) {
@@ -95,5 +138,39 @@ dempsey.controller('shotsController',
         self.onRelease = function() {
             $ionicScrollDelegate.freezeAllScrolls(false);
         }
+
+        // EDIT MODAL
+        $scope.selectedShot = {};
+
+        $scope.editShot = function(shot) {
+            $scope.selectedShot = shot;
+        }
+
+        $scope.openModal = function() {
+            $scope.modal.show();
+        };
+
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+            self.edit();
+        };
+
+        //Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function() {
+            if ($scope.modal) {
+                $scope.modal.remove();
+            }
+        });
+
+        // Execute action on hide modal
+        $scope.$on('modal.hidden', function() {
+            // Execute action
+        });
+
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function() {
+            // Execute action
+        });
+
 
     });

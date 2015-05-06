@@ -1,13 +1,13 @@
 dempsey.controller('homeController',
-    function homeController($timeout, dataService) {
+    function homeController($scope, $timeout, dataService) {
         var self = this;
 
         self.currentGame = {};
 
-        self.init = (function() {
+        $scope.$on('$ionicView.enter', function(event) {
             $timeout(function() {
                 self.currentGame = dataService.getLocalGame();
             });
-        })();
+        });
 
     });

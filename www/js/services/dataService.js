@@ -8,8 +8,8 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
         , currentPlayer = {}
         , currentTeam = {}
         , currentGame = {}
-
-
+        , positions = [{ type: 'P', x: 38, y: 76 }, { type: 'P', x: 1, y: 52 }, { type: 'P', x: 26, y: 52 }, { type: 'P', x: 51, y: 52 }, { type: 'P', x: 76, y: 52 }, { type: 'P', x: 1, y: 28 }, { type: 'P', x: 26, y: 28 }, { type: 'P', x: 51, y: 28 }, { type: 'P', x: 76,  y: 28 }, { type: 'P', x: 26, y: 3 }, { type: 'P', x: 51, y: 3 }]
+        , getPositions = function() { return positions; }
     // Local Storage
 
         , setLocalTeams = function(teams) {
@@ -40,12 +40,110 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
         }
 
         , getLocalGame = function() {
-            return JSON.parse(window.localStorage['currentGame']);
+            return JSON.parse(window.localStorage['currentGame'] || '{}');
+        }
+
+        , setLocalTeam = function(team) {
+            window.localStorage['currentTeam'] = JSON.stringify(team);
+        }
+
+        , getLocalTeam = function() {
+            return JSON.parse(window.localStorage['currentTeam'] || '{}');
+        }
+
+        , setLocalPlayers = function(players, teamId) {
+                var localPlayers = getLocalPlayers();
+                _.each(players, function(player) {
+                    localPlayers.push({teamId: teamId, player: player});
+                });
+                window.localStorage['players'] = JSON.stringify(localPlayers);
+        }
+
+        , getLocalPlayers = function(isTeam) {
+            if (isTeam) {
+                var allPlayers = JSON.parse(window.localStorage['players'] || '[]');
+                var currentTeam = getLocalTeam();
+                var thesePlayers = [];
+                _.each(allPlayers, function(player) {
+                    if (currentTeam.objectId == player.teamId) {
+                        thesePlayers.push(player);
+                    }
+                });
+                return thesePlayers;
+            }
+            else {
+                return JSON.parse(window.localStorage['players'] || '[]');
+            }
+        }
+
+        , getLocalGamesStatsByKey = function(key) {
+            var allStats = getLocalGamesStats();
+            return allStats[key] || [];
+        }
+
+        , getLocalGamesStats = function() {
+            return JSON.parse(window.localStorage['gameStats'] || '{}');
+        }
+
+        , setLocalGameStats = function(key, value, update) {
+            var allStats = getLocalGamesStats();
+
+            // If you want to update sub object of key value array
+            // then pass in the boolean as true
+            if (update) {
+                // If array does not exist then set key to empty array
+                if (!allStats[key]) {
+                    allStats[key] = [];
+                }
+
+                var obj = _.find(allStats[key], function(item) {
+                    return item.player === value.player;
+                });
+
+                // If objects exists in array then update it
+                // else add it  to the array
+                if (obj) {
+                    var index = allStats[key].indexOf(obj);
+                    allStats[key][index] = value;
+                }
+                else {
+                    allStats[key].push(value);
+                }
+            }
+            else {
+                if (allStats[key]) {
+                    allStats[key].push(value);
+                }
+                else {
+                    allStats[key] = [];
+                    allStats[key].push(value);
+
+                }
+            }
+
+
+            window.localStorage['gameStats'] = JSON.stringify(allStats);
+        }
+
+        , deleteLocalGameStatsItem = function(key, value) {
+            var allStats = getLocalGamesStats();
+
+            if (allStats[key]) {
+                allStats[key].splice(value, 1);
+            }
+            else {
+                // Throw error
+            }
+            window.localStorage['gameStats'] = JSON.stringify(allStats);
         }
 
         , clearLocalStorage = function() {
-            window.localStorage['games'] = [];
-            window.localStorage['teams'] = [];
+            window.localStorage['currentGame'] = '';
+            window.localStorage['currentTeam'] = '';
+              window.localStorage['gameStats'] = [];
+                window.localStorage['players'] = [];
+                  window.localStorage['games'] = [];
+                  window.localStorage['teams'] = [];
         }
 
     // Initial Login
@@ -59,8 +157,12 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
                     getGames(team, function (games) {
                         // Set games in local storage
                         setLocalGames(games, team.id);
-                        callback();
-                    })
+
+                        getPlayersByTeamId(team.id, function(players) {
+                            setLocalPlayers(players, team.id);
+                            callback();
+                        });
+                    });
                 });
             });
         }
@@ -91,14 +193,12 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
             var teamDict = [];
             var query = new Parse.Query(userTable);
             var currentUser = Parse.User.current();
-            // console.log(currentUser);
             query.include('teams');
             query.get(currentUser.id, {
                 success: function(user) {
                     $timeout(function(){
                         var teams = user.get("teams");
                         // Add each team associated with the current user to the team dropdown list
-                        console.log(teams);
                         _.each(teams, function (team) {
                             teamDict.push(team);
                         });
@@ -125,6 +225,8 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
                         _.each(players, function (player) {
                             var photo = player.get("photo"),
                                 name = player.get("name"),
+                                firstName = player.get("firstName"),
+                                lastName = player.get("lastName"),
                                 birthday = player.get("birthday"),
                                 team = player.get("team"),
                                 jerseyNumber = player.get("jerseyNumber"),
@@ -139,6 +241,8 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
                             dictionary.push({
                                 photo : photo,
                                 name : name,
+                                firstName : firstName,
+                                lastName : lastName,
                                 birthday : birthday,
                                 team : team,
                                 jerseyNumber : jerseyNumber,
@@ -176,14 +280,11 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
                     var games = [];
 
                     for (var i = 0; i < games_brute.length; i++ ) {
-                        console.log("====================================");
-                        console.log(team);
-                        console.log(games_brute);
-                        console.log("====================================");
 
                         game = {
                             id: games_brute[i].id,
                             date: games_brute[i].get("date"),
+                            startTime: games_brute[i].get("startTime"),
                             opponent: {
                                 name: games_brute[i].get("opponent"),
                                 symbol: games_brute[i].get("opponentSymbol"),
@@ -749,12 +850,26 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
 
         ; return {
         init: init,
+        getPositions: getPositions,
+
         getLocalGames: getLocalGames,
         setLocalGames: setLocalGames,
+
         getLocalGame: getLocalGame,
         setLocalGame: setLocalGame,
+
+        getLocalTeam: getLocalTeam,
+        setLocalTeam: setLocalTeam,
+
         getLocalTeams: getLocalTeams,
         setLocalTeams: setLocalTeams,
+
+        setLocalPlayers: setLocalPlayers,
+        getLocalPlayers: getLocalPlayers,
+
+        getLocalGamesStatsByKey: getLocalGamesStatsByKey,
+        setLocalGameStats: setLocalGameStats,
+        deleteLocalGameStatsItem: deleteLocalGameStatsItem,
 
         clearLocalStorage: clearLocalStorage,
 

@@ -33,8 +33,12 @@ dempsey.factory('viewService', function ($location, $timeout) {
         }
         ,logOut = function() {
             Parse.User.logOut();
-            window.localStorage['games'] = [];
-            window.localStorage['teams'] = [];
+            window.localStorage['currentGame'] = '';
+            window.localStorage['currentTeam'] = '';
+              window.localStorage['gameStats'] = [];
+                window.localStorage['players'] = [];
+                  window.localStorage['games'] = [];
+                  window.localStorage['teams'] = [];
             goToPage('/login');
         };
 

@@ -49,20 +49,12 @@
                                 <circle ng-if="shot.type === 'on'" cx="{{shot.shotPos.x}}%" cy="{{shot.shotPos.y}}%" r="3.5%" stroke="#5DA97B" stroke-width="1.5%" fill="#FFF" />
                                 <circle ng-if="shot.type === 'goal'" cx="{{shot.shotPos.x}}%" cy="{{shot.shotPos.y}}%" r="3.5%" fill="#5DA97B" />
                             </g>
-                            <g ng-show="shotsCtrl.state === 'edit'" ng-click="shotsCtrl.deleteShot(shot)">
-                                <circle cx="{{shot.shotPos.x}}%" cy="{{shot.shotPos.y}}%" r="5%" stroke="#ff7373" stroke-width="2%" fill="#FFF" />
-                                <!--
-                                <path transform="translate({{shot.shotPos.x}},{{shot.shotPos.y}})" d="M 38.3 3.3 L 25 16.6 L 11.7 3.3 L 4 11 L 17.3 24.3 L 3.3 38.3 L 11 46 L 25 32 L 39 46 L 46.7 38.3 L 32.7 24.3 L 46 11 L 38.3 3.3 Z" fill="#ff7373"/>
-                                -->
-                            </g>
                         </g>
-                        <g ng-show="shotsCtrl.state === 'new'">
+                        <g>
                             <line  x1="{{shotsCtrl.currentShot.shotPos.x}}%" y1="{{shotsCtrl.currentShot.shotPos.y}}%" x2="{{shotsCtrl.currentShot.resultPos.x}}%" y2="{{shotsCtrl.currentShot.resultPos.y}}%" style="stroke:#5DA97B;stroke-width:1.5%;" />
                             <circle on-drag="shotsCtrl.dragHandle($event, 'result')" on-release="shotsCtrl.onRelease()" cx="{{shotsCtrl.currentShot.resultPos.x}}%" cy="{{shotsCtrl.currentShot.resultPos.y}}%" r="5%" stroke="#5DA97B" stroke-width="2%" fill="#444" />
                             <circle on-drag="shotsCtrl.dragHandle($event, 'shot')" on-release="shotsCtrl.onRelease()" cx="{{shotsCtrl.currentShot.shotPos.x}}%" cy="{{shotsCtrl.currentShot.shotPos.y}}%" r="5%" stroke="#5DA97B" stroke-width="2%" fill="#FFF" />
                         </g>
-
-
                     </svg>
                 </div>
             </div>
@@ -102,29 +94,12 @@
                     </div>
 
                 </div>
-                 <!--
-                <label class="item item-input item-select">
-                    <div class="input-label">
-                        Type
-                    </div>
-                    <select ng-model="shotsCtrl.currentShot.type" required>
-                        <option value=""></option>
-                        <option value="goal">Goal</option>
-                        <option value="on">On Goal</option>
-                        <option value="off">Off Goal</option>
-                        <option value="blocked">Blocked</option>
-                    </select>
-                </label>
-                  -->
+
                 <label class="item item-input item-select">
                     <div class="input-label">
                         Taken By
                     </div>
-                    <select ng-model="shotsCtrl.currentShot.takenBy" required>
-                        <option></option>
-                        <option>Alec Moore</option>
-                        <option>Clint Dempsey</option>
-                        <option>Obafemi Martins</option>
+                    <select ng-options="o.player.name for o in players" ng-model="shotsCtrl.currentShot.takenBy" required>
                     </select>
                 </label>
 
@@ -132,11 +107,7 @@
                     <div class="input-label">
                          Assisted By
                     </div>
-                    <select ng-model="shotsCtrl.currentShot.assistedBy">
-                        <option></option>
-                        <option>Alec Moore</option>
-                        <option>Clint Dempsey</option>
-                        <option>Obafemi Martins</option>
+                    <select ng-options="o.player.name for o in players" ng-model="shotsCtrl.currentShot.assistedBy">
                     </select>
                 </label>
 

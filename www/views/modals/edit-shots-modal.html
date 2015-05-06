@@ -1,0 +1,61 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Edit Shots</h1>
+        <div ng-click="closeModal()" class="buttons">
+            <button class="button button-clear">Done</button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="shots-page edit-shots-modal">
+
+       <div class="hero">
+            <div class=" shots relative">
+                <div class="back-layer">
+                    <img src="img/shots-background.svg">
+                </div>
+
+                <div class="svg-container">
+                    <svg class="lines" preserveAspectRatio="xMinYMin meet">
+                        <g>
+                            <defs>
+                                <marker id="arrow" orient="auto" markerWidth="2" markerHeight="4" refX="0.1" refY="2" style="fill:#5DA97B">
+                                    <path d="M0 0 V4 L2 2 Z"></path>
+                                </marker>
+                                <marker id="block" orient="auto" markerWidth="5" markerHeight="5" refX="0.1" refY="2" style="stroke:#5DA97B;stroke-width:2;">
+                                    <path d="M0 0 L0 4"></path>
+                                </marker>
+                            </defs>
+                        </g>
+                        <g ng-show="selectedShot">
+                            <g>
+                                <line ng-if="selectedShot.type !== 'blocked'" x1="{{selectedShot.shotPos.x}}%" y1="{{selectedShot.shotPos.y}}%" x2="{{selectedShot.resultPos.x}}%" y2="{{selectedShot.resultPos.y}}%" style="stroke:#5DA97B;stroke-width:1.5%;marker-end:url(#arrow);" />
+                                <line  ng-if="selectedShot.type === 'blocked'" x1="{{selectedShot.shotPos.x}}%" y1="{{selectedShot.shotPos.y}}%" x2="{{selectedShot.resultPos.x}}%" y2="{{selectedShot.resultPos.y}}%" style="stroke:#5DA97B;stroke-width:1.5%;marker-end:url(#block);" />
+                                <circle ng-if="selectedShot.type === 'on'" cx="{{selectedShot.shotPos.x}}%" cy="{{selectedShot.shotPos.y}}%" r="3.5%" stroke="#5DA97B" stroke-width="1.5%" fill="#FFF" />
+                                <circle ng-if="selectedShot.type === 'goal'" cx="{{selectedShot.shotPos.x}}%" cy="{{selectedShot.shotPos.y}}%" r="3.5%" fill="#5DA97B" />
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div>
+            <button ng-click="deleteShot(selectedShot)" ng-class="{'disabled': !selectedShot.type}" class="button button-block button-assertive">
+                Remove Shot
+            </button>
+        </div>
+
+        <div class="flex flex-center" ng-show="shots.length <= 0">
+            <h3 class="empty">No shots recorded</h3>
+        </div>
+
+        <div class="list">
+            <div class="flex item" ng-repeat="shot in shots" ng-click="editShot(shot)" ng-class="{'selected': shot === selectedShot}">
+                <h3 class="flex-one">{{shot.takenBy.player.name}} <span ng-show="shot.assistedBy">({{shot.assistedBy.player.name}})</span></h3>
+                <p>{{shot.type}}</p>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-modal-view>

@@ -5,22 +5,25 @@
         </button>
     </ion-nav-buttons>
     <ion-content class="field-page">
-        <div class="hero">
+        <div class="loading flex flex-center" ng-show="tacklesCtrl.isBusy">
+            <ion-spinner icon="ripple"></ion-spinner>
+        </div>
+        <div ng-show="!tacklesCtrl.isBusy" class="hero">
 
         </div>
-        <div>
+        <div ng-show="!tacklesCtrl.isBusy">
             <div class="field">
                 <div class="back-layer">
                     <img ng-class="{'disabled': tacklesCtrl.state === 'edit'}" src="img/full-field.svg" />
                 </div>
                 <div class="player-layer">
-                    <player-card data="player.data" ng-repeat="player in players track by $index" style="left:{{player.data.x}}%; top:{{player.data.y}}%"></player-card>
+                    <player-card data="player.data" stat-changed="tacklesCtrl.statChanged(data)" ng-repeat="player in players track by $index" style="left:{{player.data.x}}%; top:{{player.data.y}}%"></player-card>
                 </div>
             </div>
             <div class="bench">
                 <h3>BENCH</h3>
                 <div>
-                    <player-card data="player.data" ng-repeat="player in bench track by $index"></player-card>
+                    <player-card data="player.data" stat-changed="tacklesCtrl.statChanged(data)" ng-repeat="player in bench track by $index"></player-card>
                 </div>
             </div>
         </div>

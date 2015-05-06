@@ -1,4 +1,4 @@
-<ion-view view-title="Home" ng-controller="gamesController as gamesCtrl">
+<ion-view view-title="Select A Game" ng-controller="gamesController as gamesCtrl">
     <ion-nav-buttons side="right">
         <button class="button button-clear" ng-click="gamesCtrl.logout()">
             Logout
@@ -14,7 +14,7 @@
                 <div class="input-label">
                     Select A Team
                 </div>
-                <select ng-options="o.name for o in gamesCtrl.teams" ng-model="gamesCtrl.currentTeam">
+                <select ng-options="o.symbol for o in gamesCtrl.teams" ng-model="gamesCtrl.currentTeam">
                 </select>
             </label>
         </div>
