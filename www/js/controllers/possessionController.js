@@ -54,9 +54,6 @@ dempsey.controller('possessionController',
                     // Add time event
                     timeEvent = {team: _selected, duration: newTime, timeStamp: time };
                     self.possessionEvents.unshift(timeEvent);
-
-                    dataService.setLocalGameStats('possession', timeEvent);
-
                 }
                 else {
                     // If this is the first event
@@ -64,10 +61,11 @@ dempsey.controller('possessionController',
                     timeEvent = { team: _selected, duration: 0, timeStamp: time };
                     self.possessionEvents.push(timeEvent);
 
-                    dataService.setLocalGameStats('possession', timeEvent);
                 }
 
                 self.possession.data = Math.round((self.teamTime / self.totalTime) * 100);
+
+                dataService.setLocalGameStats('possession', self.possession.data, true);
                 self.selected = _selected;
             }
         }

@@ -91,7 +91,7 @@ dempsey.controller('subsController',
 
                 var subObj =  {
                     data: {
-                        isSub: player1.data.isBench || player2.data.isBench,
+                        isSub: (player1.data.isBench && !player2.data.isBench) || (!player1.data.isBench && player2.data.isBench),
                         player1: player1,
                         player2: player2,
                         timeStamp: new Date().getTime()

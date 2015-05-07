@@ -275,6 +275,7 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
 
                 query.equalTo('team',team);
                 query.include('gameTeamStats');
+                query.include('gameTeamStats.roster');
                 query.find().then(function(games_brute){
                     var game;
                     var games = [];
@@ -297,8 +298,17 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
                                 score: games_brute[i].get("gameTeamStats").get("goalsMade")
                             },
                             status: games_brute[i].get("status"),
-                            notes: games_brute[i].get("gameNotes")
+                            notes: games_brute[i].get("gameNotes"),
+                            gameTeamStats: games_brute[i].get("gameTeamStats"),
+                            roster: []
                         }
+
+                        _.each(games_brute[i].get("gameTeamStats").get("roster"), function (item) {
+                            var thisObj = {};
+                            thisObj[item.get('player').id] = item;
+                            game.roster.push(thisObj);
+                            console.log(thisObj);
+                        });
                         games.push(game);
                     }
 

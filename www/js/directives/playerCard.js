@@ -16,6 +16,7 @@ dempsey.directive('playerCard', function () {
 
             $scope.firstStat = 0;
             $scope.secondStat = 0;
+            $scope.cards = [];
             $scope.state = 'new';
 
             // Increments the count for the primary statistic for the player
@@ -62,8 +63,11 @@ dempsey.directive('playerCard', function () {
                     else {
                         $scope.isYellow = false;
                         $scope.isRed = true;
-
                     }
+
+                    $scope.firstStat += 1;
+                    $scope.cards.push({ time: new Date().getTime(), type: $scope.cardState});
+
                     $scope.updateParent();
                     return;
                 }
@@ -96,7 +100,7 @@ dempsey.directive('playerCard', function () {
             $scope.updateParent = function() {
 
                 if ($scope.isFoul) {
-                    $scope.statChanged({data: { player: $scope.data.objectId, fouls: parseInt($scope.firstStat), isRed: $scope.isRed, isYellow: $scope.isYellow } });
+                    $scope.statChanged({data: { player: $scope.data.objectId, cards: $scope.cards,  fouls: parseInt($scope.firstStat), isRed: $scope.isRed, isYellow: $scope.isYellow } });
                     return;
                 }
 
@@ -121,13 +125,13 @@ dempsey.directive('playerCard', function () {
             }
 
             $scope.$on(configService.messages.loadPlayerCardData, function(msg, data) {
-                console.log(data);
                 if (data.data && data.data.player === $scope.data.objectId) {
 
                     if ($scope.isFoul) {
                         $scope.firstStat = data.data.fouls;
                         $scope.isYellow = data.data.isYellow;
                         $scope.isRed = data.data.isRed;
+                        $scope.cards = data.data.cards;
                     }
                     else {
                         if (data.data.first) {
