@@ -1,8 +1,10 @@
 dempsey.controller('subsController',
-    function subsController($scope, $rootScope, $ionicModal, dataService) {
+    function subsController($scope, $rootScope, $timeout, $ionicModal, dataService) {
         var self = this;
         self.state = 'new';
         self.isBusy = true;
+
+        var skipLocalStorage = false;
 
         $scope.players = [];
 
@@ -30,10 +32,21 @@ dempsey.controller('subsController',
 
             });
 
-            // Load existing data from local storage
-            var localData = dataService.getLocalGamesStatsByKey('subs');
+            $timeout(function() {
 
-            self.isBusy = false;
+                // Load existing data from local storage
+                var localData = dataService.getLocalGamesStatsByKey('subs');
+
+                _.each(localData, function(item) {
+                    $scope.player1 = item.data.player1;
+                    $scope.player2 = item.data.player2;
+                    self.makeSub(true);
+                });
+
+                skipLocalStorage = false;
+                self.isBusy = false;
+            });
+
         });
 
         var dummyPlayer = {
@@ -54,7 +67,7 @@ dempsey.controller('subsController',
 
         $scope.subs = [];
 
-        self.makeSub = function() {
+        self.makeSub = function(skipLocalStorage, skipHistory) {
             if ($scope.player1.isPlayer && $scope.player2.isPlayer) {
 
                 var player1 = _.find($scope.players, function(item) {
@@ -85,9 +98,14 @@ dempsey.controller('subsController',
                     }
                 };
 
-                $scope.subs.push(subObj);
+                if (!skipHistory) {
+                    $scope.subs.push(subObj);
+                }
 
-                dataService.setLocalGameStats('subs', subObj);
+                // Don't commit to local storage if you loading the data on page load
+                if (!skipLocalStorage) {
+                    dataService.setLocalGameStats('subs', subObj);
+                }
 
                 self.resetSubs();
             }
@@ -129,9 +147,15 @@ dempsey.controller('subsController',
         }
 
         $scope.removeSub = function(sub) {
+
+            self.subClicked(sub.data.player1.data);
+            self.subClicked(sub.data.player2.data);
+
+            self.makeSub(true, true);
+
             $scope.subs.splice(sub, 1);
             dataService.deleteLocalGameStatsItem('subs', sub);
-            // todo: Return player back to position
+
         }
 
         $scope.openModal = function() {

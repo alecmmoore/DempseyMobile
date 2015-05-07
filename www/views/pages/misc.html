@@ -5,8 +5,11 @@
         </button>
     </ion-nav-buttons>
     <ion-content class="misc-page">
+        <div class="loading flex flex-center" ng-show="miscCtrl.isBusy">
+            <ion-spinner icon="ripple"></ion-spinner>
+        </div>
 
-        <div class="hero flex">
+        <div ng-show="!miscCtrl.isBusy" class="hero flex">
             <div class="flex flex-center flex-column flex-one">
                 <img src="img/opponent-goals-icon.svg"/>
                 <h4>OPPONENT<br/>GOALS</h4>
@@ -25,7 +28,7 @@
              </div>
         </div>
 
-        <div class="hero flex">
+        <div ng-show="!miscCtrl.isBusy" class="hero flex">
             <div class="flex flex-center flex-column flex-one">
                 <img src="img/saves-icon.svg"/>
                 <h4>SAVES</h4>
@@ -44,7 +47,7 @@
              </div>
         </div>
 
-        <div class="hero flex">
+        <div ng-show="!miscCtrl.isBusy" class="hero flex">
             <div class="flex flex-center flex-column flex-one">
                 <img src="img/corner-icon.svg"/>
                 <h4>CORNERS</h4>
@@ -63,7 +66,7 @@
             </div>
         </div>
 
-        <div class="hero flex">
+        <div ng-show="!miscCtrl.isBusy" class="hero flex">
             <div class="flex flex-center flex-column flex-one">
                 <img src="img/offside-icon.svg"/>
                 <h4>OFFSIDES</h4>

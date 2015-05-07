@@ -9,7 +9,7 @@
                 pulling-text="Pull to refresh..."
                 on-refresh="gamesCtrl.doRefresh()">
         </ion-refresher>
-        <div class="hero flex flex-center-vertical">
+        <div ng-class="{'disabled-invisible': gamesCtrl.isBusy}" class="hero flex flex-center-vertical">
             <label class="item item-input item-select">
                 <div class="input-label">
                     Select A Team
@@ -18,7 +18,7 @@
                 </select>
             </label>
         </div>
-        <div class="list">
+        <div ng-class="{'disabled-invisible':  gamesCtrl.isBusy}" class="list">
             <h3 ng-show="!gamesCtrl.games[0].length" class="text-center empty">No Games Found</h3>
             <div ng-click="gamesCtrl.selectGame(game)" ng-repeat="game in gamesCtrl.games[0]" class="hero flex flex-center-vertical">
                 <div class="flex flex-center-vertical">

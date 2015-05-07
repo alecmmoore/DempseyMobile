@@ -3,6 +3,7 @@ dempsey.controller('homeController',
         var self = this;
 
         self.currentGame = {};
+        self.isBusy = true;
 
         $scope.$on('$ionicView.enter', function(event) {
             $timeout(function() {
@@ -17,6 +18,9 @@ dempsey.controller('homeController',
                 $scope.tackles = $scope.gameStats.tackles && $scope.gameStats.tackles.length;
                 $scope.subs = $scope.gameStats.subs && $scope.gameStats.subs.length;
                 $scope.misc = $scope.gameStats.corners || $scope.gameStats.offsides || $scope.gameStats.saves || $scope.gameStats.opponentGoals;
+
+                self.isBusy = false;
+
             });
         });
 

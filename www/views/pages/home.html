@@ -1,6 +1,9 @@
 <ion-view view-title="Home" ng-controller="homeController as homeCtrl">
     <ion-content class="home-page">
-        <div class="hero flex flex-center-vertical">
+        <div class="loading flex flex-center" ng-show="homeCtrl.isBusy">
+            <ion-spinner icon="ripple"></ion-spinner>
+        </div>
+        <div ng-show="!homeCtrl.isBusy" class="hero flex flex-center-vertical">
             <div class="flex flex-center-vertical">
                 <div class="img-container flex flex-center flex-one">
                     <img src="" ng-src="{{homeCtrl.currentGame.team.photo}}"/>
@@ -17,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="list">
+        <div ng-show="!homeCtrl.isBusy" class="list">
             <div class="flex">
                 <a href="#/possession" class="col flex flex-center flex-column">
                     <div class="flex flex-one flex-column">

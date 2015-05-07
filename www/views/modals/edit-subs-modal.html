@@ -9,14 +9,14 @@
         <div class="flex flex-center" ng-show="subs.length <= 0">
             <h3 class="empty">No substitutions made</h3>
         </div>
-        <div class="flex hero" ng-repeat="sub in subs">
+        <div ng-class="{'disabled': !$last}" class="flex hero" ng-repeat="sub in subs">
             <div class="flex flex-center-vertical">
                 <player-card data="sub.data.player1.data" is-sub="true"></player-card>
                 <i class="icon ion-chevron-left"></i>
                 <i class="icon ion-chevron-right"></i>
                 <player-card data="sub.data.player2.data" is-sub="true"></player-card>
             </div>
-            <div class="flex flex-one flex-center close" ng-click="removeSub()">
+            <div class="flex flex-one flex-center close" ng-click="removeSub(sub)">
                 <i class="icon ion-close"></i>
             </div>
         </div>

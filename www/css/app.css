@@ -146,6 +146,10 @@ input.ng-invalid-required.ng-touched {
     pointer-events:none;
 }
 
+.disabled-invisible {
+    pointer-events:none;
+}
+
 .text-center {
     text-align: center;
 }
@@ -495,8 +499,8 @@ ion-content .hero > div:not(.stat) > h2 {
     min-height: 205px;
 }
 
-.misc-page .scroll > div.hero:nth-child(1),
-.misc-page .scroll > div.hero:nth-child(3) {
+.misc-page .scroll > div.hero:nth-child(2),
+.misc-page .scroll > div.hero:nth-child(4) {
     background-color: transparent;
 }
 

@@ -44,7 +44,7 @@ dempsey.controller('gamesController',
         };
 
         self.doRefresh = function() {
-
+            self.isBusy = true;
             // Reloads and re-queries the data
             dataService.clearLocalStorage();
             dataService.init(function() {
@@ -52,7 +52,7 @@ dempsey.controller('gamesController',
                 self.init();
                 // Stop the ion-refresher from spinning
                 $scope.$broadcast('scroll.refreshComplete');
-
+                self.isBusy = false;
             });
 
         };
