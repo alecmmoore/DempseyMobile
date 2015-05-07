@@ -3,6 +3,7 @@ dempsey.factory('configService', function () {
 
         messages: {
               navigate: 'navigate'
+            , toast: 'toast'
             , loginSuccess: 'loginSuccess'
             , setGame: 'setGame'
             , addNewTeam: 'addNewTeam'

@@ -25,6 +25,7 @@
                         <img src="img/possession-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>POSSESSION</h3>
+                        <i ng-show="possession" class="icon ion-ios-information"></i>
                     </div>
                 </a>
                 <a href="#/shots" class="col flex flex-center flex-column">
@@ -33,6 +34,7 @@
                         <img src="img/shot-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>SHOTS/GOALS</h3>
+                        <i ng-show="shots" class="icon ion-ios-information"></i>
                     </div>
                 </a>
             </div>
@@ -44,6 +46,7 @@
                         <img src="img/pass-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>PASSES</h3>
+                        <i ng-show="passes" class="icon ion-ios-information"></i>
                     </div>
                 </a>
                 <a href="#/fouls" class="col flex flex-center flex-column">
@@ -52,6 +55,7 @@
                         <img src="img/foul-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>FOULS</h3>
+                        <i ng-show="fouls" class="icon ion-ios-information"></i>
                     </div>
                 </a>
             </div>
@@ -63,6 +67,7 @@
                         <img src="img/tackle-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>TACKLES</h3>
+                        <i ng-show="tackles" class="icon ion-ios-information"></i>
                     </div>
                 </a>
                 <a href="#/subs" class="col flex flex-center flex-column">
@@ -71,6 +76,7 @@
                         <img src="img/sub-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>SUBS</h3>
+                        <i ng-show="subs" class="icon ion-ios-information"></i>
                     </div>
                 </a>
             </div>
@@ -82,10 +88,11 @@
                         <img src="img/misc-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>MISC</h3>
+                        <i ng-show="misc" class="icon ion-ios-information"></i>
                     </div>
 
                 </a>
-                <a class="submit col flex flex-center">
+                <a ng-click="homeCtrl.submitStats()" class="submit col flex flex-center">
                     <h3>SUBMIT<br/>STATS</h3>
                 </a>
             </div>

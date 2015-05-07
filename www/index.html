@@ -21,7 +21,7 @@
   <body ng-app="dempsey" ng-controller="shellController as shellCtrl">
 
         <ion-nav-bar class="bar-soccer bar-positive">
-            <ion-nav-back-button ng-show="currentPage !== 'login' && currentPage !== 'games'" class="button-clear">
+            <ion-nav-back-button ng-show="currentPage !== &apos;login&apos; &amp;&amp; currentPage !== &apos;games&apos;" class="button-clear">
                 <i class="icon ion-ios-arrow-back"></i> Back
             </ion-nav-back-button>
         </ion-nav-bar>
@@ -32,7 +32,7 @@
             <div class="flex flex-center-vertical toast" ng-repeat="toast in toasts" ng-class="{&apos;slideOut&apos;: toast.slideOut,  &apos;slideIn&apos;: toast.slideIn, &apos;error&apos;: toast.error, &apos;success&apos;: toast.success}">
                 <p class="flex-one">{{toast.message}}</p>
                 <div ng-click="closeToast(toast)">
-                    <img ng-if="!toast.error && !toast.success" src="./img/close-icon-dark.svg">
+                    <img ng-if="!toast.error &amp;&amp; !toast.success" src="./img/close-icon-dark.svg">
                     <img ng-if="toast.error || toast.success" src="./img/close-icon.svg">
                 </div>
             </div>

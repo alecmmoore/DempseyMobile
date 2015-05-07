@@ -1,5 +1,29 @@
 <ion-view view-title="Miscellaneous" ng-controller="miscController as miscCtrl">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="miscCtrl.edit()">
+            {{miscCtrl.state === 'new' ? 'Edit' : 'Done'}}
+        </button>
+    </ion-nav-buttons>
     <ion-content class="misc-page">
+
+        <div class="hero flex">
+            <div class="flex flex-center flex-column flex-one">
+                <img src="img/opponent-goals-icon.svg"/>
+                <h4>OPPONENT<br/>GOALS</h4>
+            </div>
+            <div class="flex flex-two">
+                <div ng-click="miscCtrl.subProp('opponentGoals')" class="flex-one flex flex-center">
+                    <i class="icon ion-minus"></i>
+                </div>
+                <div class="count flex-one flex flex-center">
+                    <h1 ng-show="miscCtrl.state === 'new'">{{miscCtrl.opponentGoals}}</h1>
+                    <input ng-show="miscCtrl.state === 'edit'" type="tel" ng-model="miscCtrl.opponentGoals"/>
+                </div>
+                <div ng-click="miscCtrl.addProp('opponentGoals')" class="flex-one flex flex-center">
+                    <i class="icon ion-plus"></i>
+                </div>
+             </div>
+        </div>
 
         <div class="hero flex">
             <div class="flex flex-center flex-column flex-one">
@@ -11,7 +35,8 @@
                     <i class="icon ion-minus"></i>
                 </div>
                 <div class="count flex-one flex flex-center">
-                    <h1>{{miscCtrl.saves}}</h1>
+                    <h1 ng-show="miscCtrl.state === 'new'">{{miscCtrl.saves}}</h1>
+                    <input ng-show="miscCtrl.state === 'edit'" type="tel" ng-model="miscCtrl.saves"/>
                 </div>
                 <div ng-click="miscCtrl.addProp('saves')" class="flex-one flex flex-center">
                     <i class="icon ion-plus"></i>
@@ -29,7 +54,8 @@
                     <i class="icon ion-minus"></i>
                 </div>
                 <div class="count flex-one flex flex-center">
-                    <h1>{{miscCtrl.corners}}</h1>
+                    <h1 ng-show="miscCtrl.state === 'new'">{{miscCtrl.corners}}</h1>
+                    <input ng-show="miscCtrl.state === 'edit'" type="tel" ng-model="miscCtrl.corners"/>
                 </div>
                 <div ng-click="miscCtrl.addProp('corners')" class="flex-one flex flex-center">
                     <i class="icon ion-plus"></i>
@@ -47,7 +73,8 @@
                     <i class="icon ion-minus"></i>
                 </div>
                 <div class="count flex-one flex flex-center">
-                    <h1>{{miscCtrl.offsides}}</h1>
+                    <h1 ng-show="miscCtrl.state === 'new'">{{miscCtrl.offsides}}</h1>
+                    <input ng-show="miscCtrl.state === 'edit'" type="tel" ng-model="miscCtrl.offsides"/>
                 </div>
                 <div ng-click="miscCtrl.addProp('offsides')" class="flex-one flex flex-center">
                     <i class="icon ion-plus"></i>

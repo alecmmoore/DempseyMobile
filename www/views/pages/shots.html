@@ -5,7 +5,11 @@
         </button>
     </ion-nav-buttons>
     <ion-content class="shots-page">
-       <div class="hero flex flex-center flex-space-between">
+        <div class="loading flex flex-center" ng-show="shotsCtrl.isBusy">
+            <ion-spinner icon="ripple"></ion-spinner>
+        </div>
+
+       <div ng-show="!shotsCtrl.isBusy" class="hero flex flex-center flex-space-between">
             <div class="stat flex flex-column flex-center">
                 <h2>{{shots.length}}</h2>
                 <h3 class="ellipse">SHOT<span ng-show="shots.length !== 1">S</span></h3>
@@ -24,7 +28,7 @@
             </div>
        </div>
 
-        <div class="body">
+        <div ng-show="!shotsCtrl.isBusy" class="body">
             <div id="shots" class="shots relative">
                 <div class="back-layer">
                     <img src="img/shots-background.svg">
@@ -34,18 +38,18 @@
                     <svg class="lines" preserveAspectRatio="xMinYMin meet">
                         <g>
                             <defs>
-                                <marker id="arrow" orient="auto" markerWidth="2" markerHeight="4" refX="0.1" refY="2" style="fill:#5DA97B">
+                                <marker id="arrow1" orient="auto" markerWidth="2" markerHeight="4" refX="0.1" refY="2" style="fill:#5DA97B">
                                     <path d="M0 0 V4 L2 2 Z"></path>
                                 </marker>
-                                <marker id="block" orient="auto" markerWidth="5" markerHeight="5" refX="0.1" refY="2" style="stroke:#5DA97B;stroke-width:2;">
+                                <marker id="block1" orient="auto" markerWidth="5" markerHeight="5" refX="0.1" refY="2" style="stroke:#5DA97B;stroke-width:2;">
                                     <path d="M0 0 L0 4"></path>
                                 </marker>
                             </defs>
                         </g>
                         <g ng-repeat="shot in shots track by $index">
                             <g style="opacity: .5;">
-                                <line ng-if="shot.type !== 'blocked'" x1="{{shot.shotPos.x}}%" y1="{{shot.shotPos.y}}%" x2="{{shot.resultPos.x}}%" y2="{{shot.resultPos.y}}%" style="stroke:#5DA97B;stroke-width:1.5%;marker-end:url(#arrow);" />
-                                <line  ng-if="shot.type === 'blocked'" x1="{{shot.shotPos.x}}%" y1="{{shot.shotPos.y}}%" x2="{{shot.resultPos.x}}%" y2="{{shot.resultPos.y}}%" style="stroke:#5DA97B;stroke-width:1.5%;marker-end:url(#block);" />
+                                <line ng-if="shot.type !== 'blocked'" x1="{{shot.shotPos.x}}%" y1="{{shot.shotPos.y}}%" x2="{{shot.resultPos.x}}%" y2="{{shot.resultPos.y}}%" style="stroke:#5DA97B;stroke-width:1.5%;marker-end:url(#arrow1);" />
+                                <line  ng-if="shot.type === 'blocked'" x1="{{shot.shotPos.x}}%" y1="{{shot.shotPos.y}}%" x2="{{shot.resultPos.x}}%" y2="{{shot.resultPos.y}}%" style="stroke:#5DA97B;stroke-width:1.5%;marker-end:url(#block1);" />
                                 <circle ng-if="shot.type === 'on'" cx="{{shot.shotPos.x}}%" cy="{{shot.shotPos.y}}%" r="3.5%" stroke="#5DA97B" stroke-width="1.5%" fill="#FFF" />
                                 <circle ng-if="shot.type === 'goal'" cx="{{shot.shotPos.x}}%" cy="{{shot.shotPos.y}}%" r="3.5%" fill="#5DA97B" />
                             </g>

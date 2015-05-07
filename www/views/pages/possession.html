@@ -1,4 +1,11 @@
 <ion-view view-title="Possession" ng-controller="possessionController as posCtrl">
+    <!--
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="posCtrl.edit()">
+            {{posCtrl.state === 'new' ? 'Edit' : 'Done'}}
+        </button>
+    </ion-nav-buttons>
+    -->
     <ion-content class="possession-page">
         <div class="loading flex flex-center" ng-show="posCtrl.isBusy">
             <ion-spinner icon="ripple"></ion-spinner>
@@ -43,6 +50,9 @@
                <div class="item flex" ng-repeat="event in posCtrl.possessionEvents | orderBy: '-timeStamp' : false ">
                     <h3 class="flex-one">{{event.team ? posCtrl.currentGame.team.name : posCtrl.currentGame.opponent.name}}</h3>
                     <p>{{$last ? 'Start' : event.duration}} <span ng-show="!$last">sec</span></p>
+                   <div ng-show="posCtrl.state === 'edit'" ng-click="posCtrl.removeEvent($index)">
+                       <i class="icon ion-close-circled"></i>
+                   </div>
                </div>
            </div>
         </div>

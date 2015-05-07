@@ -868,7 +868,10 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
         getLocalPlayers: getLocalPlayers,
 
         getLocalGamesStatsByKey: getLocalGamesStatsByKey,
+
+        getLocalGamesStats: getLocalGamesStats,
         setLocalGameStats: setLocalGameStats,
+
         deleteLocalGameStatsItem: deleteLocalGameStatsItem,
 
         clearLocalStorage: clearLocalStorage,

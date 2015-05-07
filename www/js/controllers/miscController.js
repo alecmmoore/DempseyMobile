@@ -3,6 +3,7 @@ dempsey.controller('miscController',
         var self = this;
         self.state = 'new';
 
+        self.opponentGoals = 0;
         self.saves = 0;
         self.corners = 0;
         self.offsides = 0;
@@ -22,7 +23,14 @@ dempsey.controller('miscController',
         };
 
         self.edit = function() {
+            if (self.state === 'new') {
+                self.state = 'edit';
+                return;
+            }
 
+            if (self.state === 'edit') {
+                self.state = 'new';
+            }
         }
 
     });

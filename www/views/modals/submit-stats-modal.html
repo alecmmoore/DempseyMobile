@@ -1,0 +1,52 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Submit Stats</h1>
+        <div ng-click="closeModal()" class="buttons">
+            <button class="button button-clear">Done</button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="submit-stats-modal">
+
+        <div ng-click="toggleStat('possession')" class="item flex flex-center-vertical">
+            <i ng-show="possession" class="icon ion-ios-circle-filled"></i>
+            <i ng-show="!possession" class="icon ion-ios-circle-outline"></i>
+            <h3>Possession</h3>
+        </div>
+        <div ng-click="toggleStat('shots')" class="item flex flex-center-vertical">
+            <i ng-show="shots" class="icon ion-ios-circle-filled"></i>
+            <i ng-show="!shots" class="icon ion-ios-circle-outline"></i>
+            <h3>Shots/Goals</h3>
+        </div>
+        <div ng-click="toggleStat('passes')" class="item flex flex-center-vertical">
+            <i ng-show="passes" class="icon ion-ios-circle-filled"></i>
+            <i ng-show="!passes" class="icon ion-ios-circle-outline"></i>
+            <h3>Passes</h3>
+        </div>
+        <div ng-click="toggleStat('fouls')" class="item flex flex-center-vertical">
+            <i ng-show="fouls" class="icon ion-ios-circle-filled"></i>
+            <i ng-show="!fouls" class="icon ion-ios-circle-outline"></i>
+            <h3>Fouls</h3>
+        </div>
+        <div ng-click="toggleStat('tackles')" class="item flex flex-center-vertical">
+            <i ng-show="tackles" class="icon ion-ios-circle-filled"></i>
+            <i ng-show="!tackles" class="icon ion-ios-circle-outline"></i>
+            <h3>Tackles</h3>
+        </div>
+        <div ng-click="toggleStat('subs')" class="item flex flex-center-vertical">
+            <i ng-show="subs" class="icon ion-ios-circle-filled"></i>
+            <i ng-show="!subs" class="icon ion-ios-circle-outline"></i>
+            <h3>Substitutions</h3>
+        </div>
+        <div ng-click="toggleStat('misc')" class="item flex flex-center-vertical">
+            <i ng-show="misc" class="icon ion-ios-circle-filled"></i>
+            <i ng-show="!misc" class="icon ion-ios-circle-outline"></i>
+            <h3>Misc</h3>
+        </div>
+
+        <div>
+            <button class="button button-block button-positive">
+                Submit Stats
+            </button>
+        </div>
+    </ion-content>
+</ion-modal-view>

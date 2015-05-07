@@ -2,6 +2,7 @@ dempsey.controller('possessionController',
     function possessionController($scope, $timeout, dataService) {
         var self = this;
         self.isBusy = true;
+        self.state = 'new';
 
         self.selected = 0;
         self.currentGame = {};
@@ -60,8 +61,8 @@ dempsey.controller('possessionController',
                 else {
                     // If this is the first event
                     startTime = time;
-                    timeEvent = {team: _selected, duration: 0, timeStamp: time };
-                    self.possessionEvents.unshift(timeEvent);
+                    timeEvent = { team: _selected, duration: 0, timeStamp: time };
+                    self.possessionEvents.push(timeEvent);
 
                     dataService.setLocalGameStats('possession', timeEvent);
                 }
@@ -69,6 +70,23 @@ dempsey.controller('possessionController',
                 self.possession.data = Math.round((self.teamTime / self.totalTime) * 100);
                 self.selected = _selected;
             }
+        }
+
+        self.removeEvent = function(item) {
+            self.possessionEvents.splice(item, 1);
+            dataService.deleteLocalGameStatsItem('possession', item);
+        }
+
+        self.edit = function() {
+            if (self.state === 'new') {
+                self.state = 'edit';
+                return;
+            }
+
+            if (self.state === 'edit') {
+                self.state = 'new';
+            }
+
         }
 
     });

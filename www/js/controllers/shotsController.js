@@ -1,5 +1,5 @@
 dempsey.controller('shotsController',
-    function shotsController($scope, $timeout, $window, $ionicScrollDelegate, $ionicModal, viewService, dataService) {
+    function shotsController($scope, $timeout, $window, $ionicScrollDelegate, $ionicModal, viewService, configService, toastService, dataService) {
         var self = this;
 
         self.state = 'new';
@@ -21,11 +21,12 @@ dempsey.controller('shotsController',
         $scope.off = 0;
         $scope.blocked = 0;
 
+        self.isBusy = true;
+
         $scope.$on('$ionicView.enter', function(event) {
 
             // Load players
             $scope.players = dataService.getLocalPlayers(true);
-            console.log($scope.players);
 
             $timeout(function() {
 
@@ -49,7 +50,7 @@ dempsey.controller('shotsController',
         });
 
         self.addShot = function(shot) {
-            if (viewService.validateAreaByFormName('shotForm')) {
+            if (viewService.validateAreaByFormName('shotForm') && shot.takenBy) {
                 // Increment shot type count
                 if (shot.type === 'goal') {
                     $scope.on++;
@@ -58,6 +59,8 @@ dempsey.controller('shotsController',
                     $scope[shot.type] += 1;
                     shot.assistedBy = '';
                 }
+
+                shot.timeStamp = new Date().getTime();
                 var thisShot = angular.copy(shot);
                 $scope.shots.push(thisShot);
 
@@ -67,6 +70,9 @@ dempsey.controller('shotsController',
                 // Reset
                 self.currentShot.shotPos = {x: 50, y: 75};
                 self.currentShot.resultPos = {x: 50, y: 10};
+            }
+            else {
+                toastService.error(configService.toasts.requiredFields);
             }
         }
 
@@ -117,8 +123,6 @@ dempsey.controller('shotsController',
             var offset = el.getBoundingClientRect();
             var x = ((event.gesture.center.pageX + offset.left) / el.clientWidth) * 100;
             var y = ((event.gesture.center.pageY - offset.top) / el.clientHeight) * 100;
-
-            console.log(y);
 
             // If x and y are within the bounds of the container
             if ( y >= 5 && y <= 100 && x >= 0 && x <= 100) {
