@@ -1,20 +1,19 @@
 dempsey.controller('shellController',
     function shellController($scope, $rootScope, $timeout, $ionicLoading, viewService, configService) {
+        var self = this;
 
         $scope.currentPage = 'login';
 
         $scope.$on('$ionicView.enter', function(event) {
-            //console.log(event);
+
         });
 
-        $scope.showLoading = function() {
-            $ionicLoading.show({
-                template: 'Loading...'
-            });
+        self.logout = function() {
+            viewService.logOut();
+            viewService.goToPage('/login')
         };
-        $scope.hideLoading = function(){
-            $ionicLoading.hide();
-        };
+
+
 
         $scope.$on('$locationChangeSuccess', function (next, current) {
             $timeout(function() {

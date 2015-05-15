@@ -8,27 +8,53 @@ dempsey.controller('subsController',
 
         $scope.players = [];
 
+        var dummyPlayer = {
+            type: "P",
+            name: "Player",
+            jerseyNumber: 0
+        }
+
+        $scope.player1 = {
+            isPlayer: false,
+            data: dummyPlayer
+        };
+
+        $scope.player2 = {
+            isPlayer: false,
+            data: dummyPlayer
+        };
+
         $scope.$on('$ionicView.enter', function(event) {
-            var allPlayers = dataService.getLocalPlayers(true);
+            var currentGame = dataService.getLocalGame();
             var positions = dataService.getPositions();
-            _.each(allPlayers, function(item, index) {
-                var isBench = false;
-                if (index < positions.length) {
+
+            // Todo: remove when the player object store the x and y val in the DB
+            var posIndex = 0;
+
+            _.each(currentGame.roster, function(_item, index) {
+                var item = _item[Object.keys(_item)[0]];
+
+                if (item.startingStatus && item.startingStatus === 'On') {
+
+                    if (posIndex < positions.length) {
+                        item.player.x = positions[item.posId].x;
+                        item.player.y = positions[item.posId].y;
+                        item.player.type = positions[item.posId].type;
+
+                        posIndex += 1;
+                    }
+
                     item.player.isBench = false;
-
-                    item.player.x = positions[index].x;
-                    item.player.y = positions[index].y;
-                    item.player.type = positions[index].type;
                 }
-                else {
-                    item.player.isBench = true;
-
+                else if (item.startingStatus && item.startingStatus === 'Off') {
                     item.player.x = 0;
                     item.player.y = 0;
-                    item.player.type = 'P';
+                    item.player.isBench = true;
+                    item.player.type = "P";
                 }
 
-                $scope.players.push({ isPlayer: true, data: item.player });
+
+                $scope.players.push({isPlayer: true, data: item.player});
 
             });
 
@@ -49,22 +75,6 @@ dempsey.controller('subsController',
 
         });
 
-        var dummyPlayer = {
-            type: "P",
-            name: "Player",
-            jerseyNumber: 0
-        }
-
-        $scope.player1 = {
-            isPlayer: false,
-            data: dummyPlayer
-        };
-
-        $scope.player2 = {
-            isPlayer: false,
-            data: dummyPlayer
-        };
-
         $scope.subs = [];
 
         self.makeSub = function(skipLocalStorage, skipHistory) {
@@ -80,7 +90,7 @@ dempsey.controller('subsController',
                 });
 
                 // Swap the x and y values and the bench status
-                player1.data.x = player2.data.x ;
+                player1.data.x = player2.data.x;
                 player1.data.y = player2.data.y;
 
                 player2.data.x = temp.data.x ;

@@ -1,5 +1,5 @@
 dempsey.controller('gamesController',
-    function gamesController($scope, $timeout, dataService, viewService) {
+    function gamesController($scope, $timeout, dataService, viewService, $ionicSideMenuDelegate) {
         var self = this
           , allGames = [];
         //self.currentTeam = dataService.getCurrentTeam();
@@ -7,6 +7,10 @@ dempsey.controller('gamesController',
         $scope.$on('$ionicView.enter', function(event) {
             self.init();
         });
+
+        self.toggleDrawer = function() {
+            $ionicSideMenuDelegate.toggleLeft();
+        }
 
         self.selectTeam = function() {
             self.games = [];
@@ -57,8 +61,4 @@ dempsey.controller('gamesController',
 
         };
 
-        self.logout = function() {
-            viewService.logOut();
-            viewService.goToPage('/login')
-        };
     });

@@ -1,0 +1,62 @@
+<ion-view view-title="Time" ng-controller="timeController as timeCtrl">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="timeCtrl.edit()">
+            {{timeCtrl.state === 'new' ? 'Edit' : 'Done'}}
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="time-page">
+        <div class="loading flex flex-center" ng-show="timeCtrl.isBusy">
+            <ion-spinner icon="ripple"></ion-spinner>
+        </div>
+
+        <div ng-show="!timeCtrl.isBusy" class="hero flex">
+            <div class="flex flex-center-vertical">
+                <div class="img-container flex flex-center flex-one">
+                    <img src="" ng-src="{{timeCtrl.currentGame.team.photo}}"/>
+                </div>
+                <h2>{{timeCtrl.currentGame.team.symbol}}</h2>
+            </div>
+            <div class="flex flex-center flex-one">
+                <p class="text-center">{{timeCtrl.currentTime}} <span ng-show="timeCtrl.currentTime !== 'FT'">'</span></p>
+            </div>
+            <div class="flex flex-center-vertical">
+                <h2>{{timeCtrl.currentGame.opponent.symbol}}</h2>
+                <div class="img-container flex flex-center flex-one">
+                    <img src="img/sample/logo-small.png"/>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="!timeCtrl.isBusy" class="body">
+            <div class="flex">
+                <div class="flex-one">
+                    <h3>1<sup>st</sup> Half Start</h3>
+                    <input ng-show="timeCtrl.state === 'edit'" type="time" ng-model="timeCtrl.time.firstStart" />
+                    <h4 ng-class="{'disabled-invisible': timeCtrl.time.firstStart }" ng-click="timeCtrl.setTime('firstStart')" ng-show="timeCtrl.state === 'new'">{{timeCtrl.time.firstStart || 'Set Time' | date: 'hh:mm a'}}</h4>
+                </div>
+                <div class="flex-one">
+                    <h3>1<sup>st</sup> Half End</h3>
+                    <input ng-show="timeCtrl.state === 'edit'" type="time" ng-model="timeCtrl.time.firstEnd" />
+                    <h4 ng-class="{'disabled-invisible': timeCtrl.time.firstEnd, 'disabled': !timeCtrl.time.firstStart }" ng-click="timeCtrl.setTime('firstEnd')" ng-show="timeCtrl.state === 'new'">{{timeCtrl.time.firstEnd || 'Set Time' | date: 'hh:mm a'}}</h4>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="flex">
+                <div class="flex-one">
+                    <h3>2<sup>nd</sup> Half Start</h3>
+                    <input ng-show="timeCtrl.state === 'edit'" type="time" ng-model="timeCtrl.time.secondStart" />
+                    <h4 ng-class="{'disabled-invisible': timeCtrl.time.secondStart, 'disabled': !timeCtrl.time.firstEnd  }" ng-click="timeCtrl.setTime('secondStart')" ng-show="timeCtrl.state === 'new'">{{timeCtrl.time.secondStart || 'Set Time' | date: 'hh:mm a'}}</h4>
+                </div>
+                <div class="flex-one">
+                    <h3>2<sup>nd</sup> Half End</h3>
+                    <input ng-show="timeCtrl.state === 'edit'" type="time" ng-model="timeCtrl.time.secondEnd" />
+                    <h4 ng-class="{'disabled-invisible': timeCtrl.time.secondEnd, 'disabled': !timeCtrl.time.secondStart  }" ng-click="timeCtrl.setTime('secondEnd')" ng-show="timeCtrl.state === 'new'">{{timeCtrl.time.secondEnd || 'Set Time' | date: 'hh:mm a'}}</h4>
+                </div>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>

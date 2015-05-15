@@ -1,9 +1,11 @@
 <ion-view view-title="Select A Game" ng-controller="gamesController as gamesCtrl">
-    <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="gamesCtrl.logout()">
-            Logout
-        </button>
+
+    <ion-nav-buttons side="left">
+          <button ng-click="gamesCtrl.toggleDrawer()" class="button icon button-clear">
+              <i class="ion ion-ios-drag"></i>
+          </button>
     </ion-nav-buttons>
+
     <ion-content class="games-page">
         <ion-refresher
                 pulling-text="Pull to refresh..."
@@ -20,7 +22,7 @@
         </div>
         <div ng-class="{'disabled-invisible':  gamesCtrl.isBusy}" class="list">
             <h3 ng-show="!gamesCtrl.games[0].length" class="text-center empty">No Games Found</h3>
-            <div ng-click="gamesCtrl.selectGame(game)" ng-repeat="game in gamesCtrl.games[0]" class="hero flex flex-center-vertical">
+            <div ng-class="{'disabled': game.status !== 'ready'}" ng-click="gamesCtrl.selectGame(game)" ng-repeat="game in gamesCtrl.games[0]" class="hero flex flex-center-vertical">
                 <div class="flex flex-center-vertical">
                     <div class="img-container flex flex-center flex-one">
                         <img src="" ng-src="{{game.team.photo}}"/>
@@ -40,4 +42,5 @@
 
         </div>
     </ion-content>
+
 </ion-view>

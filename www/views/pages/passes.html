@@ -8,8 +8,10 @@
         <div class="loading flex flex-center" ng-show="passCtrl.isBusy">
             <ion-spinner icon="ripple"></ion-spinner>
         </div>
-        <div ng-show="!passCtrl.isBusy" class="hero">
-
+        <div ng-show="!passCtrl.isBusy" class="hero flex">
+            <div class="flex flex-center-horizontal flex-one">
+            </div>
+            <p class="flex-one">Tap on a player to add a pass. Tap and hold to add an incomplete pass.</p>
         </div>
         <div ng-show="!passCtrl.isBusy">
             <div class="field">

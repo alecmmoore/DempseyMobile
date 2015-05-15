@@ -8,8 +8,10 @@
         <div class="loading flex flex-center" ng-show="tacklesCtrl.isBusy">
             <ion-spinner icon="ripple"></ion-spinner>
         </div>
-        <div ng-show="!tacklesCtrl.isBusy" class="hero">
-
+        <div ng-show="!tacklesCtrl.isBusy" class="hero flex">
+            <div class="flex flex-center-horizontal flex-one">
+            </div>
+            <p class="flex-one">Tap on a player to add a tackle.</p>
         </div>
         <div ng-show="!tacklesCtrl.isBusy">
             <div class="field">

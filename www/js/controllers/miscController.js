@@ -11,6 +11,12 @@ dempsey.controller('miscController',
 
         $scope.$on('$ionicView.enter', function(event) {
            $timeout(function() {
+
+               self.opponentGoals = dataService.getLocalGamesStatsByKey('opponentGoals')[0] || 0;
+               self.saves = dataService.getLocalGamesStatsByKey('saves')[0] || 0;
+               self.corners = dataService.getLocalGamesStatsByKey('corners')[0] || 0;
+               self.offsides = dataService.getLocalGamesStatsByKey('offsides')[0] || 0;
+
                self.isBusy = false;
            });
         });

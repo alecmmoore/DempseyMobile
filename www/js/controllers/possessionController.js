@@ -20,8 +20,13 @@ dempsey.controller('possessionController',
                 self.currentGame = dataService.getLocalGame();
 
                 // Load existing data from local storage
-                self.possessionEvents = dataService.getLocalGamesStatsByKey('possession');
+                var data = dataService.getLocalGamesStatsByKey('possession');
 
+                if (data.length) {
+                    self.possession = {
+                        data: data[data.length - 1]
+                    };
+                }
                 self.isBusy = false;
 
             });
@@ -64,6 +69,7 @@ dempsey.controller('possessionController',
                 }
 
                 self.possession.data = Math.round((self.teamTime / self.totalTime) * 100);
+                console.log(self.possession.data);
 
                 dataService.setLocalGameStats('possession', self.possession.data, true);
                 self.selected = _selected;

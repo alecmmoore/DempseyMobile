@@ -7,6 +7,7 @@ body, html {
     background-color: #F2F2F2;
 }
 
+div span,
 div.title.header-item {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -198,6 +199,11 @@ ion-header-bar.bar.bar-soccer {
     border-color:#FF7373 !important;
 }
 
+.ion-ios-drag {
+    font-size: 35px;
+    margin-top: -2px;
+}
+
 /* Page Defaults */
 ion-content .hero {
     background-color: #222;
@@ -227,8 +233,9 @@ ion-content .hero > div:not(.stat) > h2 {
 }
 
 /* Login Page */
-.login-page {
-
+.login-page .logo img {
+    width: 100%;
+    padding: 5% 20%;
 }
 
 .login-page p {
@@ -240,12 +247,17 @@ ion-content .hero > div:not(.stat) > h2 {
     position: relative;
 }
 
-.home-page a i {
-    color: #5DA97B;
+.home-page a .icon {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 36px;
+    top: 5px;
+    right: 5px;
+}
+
+.home-page .ion-android-time {
+    display: block;
+    font-size: 85px;
+    height: 85px;
+    color: #B4B4B4;
 }
 
 .home-page .list {
@@ -254,6 +266,7 @@ ion-content .hero > div:not(.stat) > h2 {
 
 .home-page .submit {
     background-color:#5DA97B;
+    min-height: 130px !important;
 }
 
 .home-page .submit h3 {
@@ -271,7 +284,7 @@ ion-content .hero > div:not(.stat) > h2 {
     margin-bottom: -1px;
 }
 
-.home-page .list .col img {
+.home-page .list .col img:not(.icon) {
     margin: 0 15%;
     min-width: 100%;
 }
@@ -304,6 +317,10 @@ ion-content .hero > div:not(.stat) > h2 {
 
 .possession-page .opponent {
     background-color:#B4B4B4;
+}
+
+.possession-page .opponent img {
+    height: 30px;
 }
 
 /* Shot Controller */
@@ -377,6 +394,18 @@ ion-content .hero > div:not(.stat) > h2 {
 .edit-shots-modal .button-container {
     padding: 0 10px;
     
+}
+
+/* Players Page */
+.players-page .img-container {
+    height: 65px;
+    width: 65px;
+    margin-bottom: 15px;
+    margin-right: 15px;
+}
+
+.players-page h3 span {
+    color: #B4B4B4;
 }
 
 
@@ -520,6 +549,37 @@ ion-content .hero > div:not(.stat) > h2 {
 
 .misc-page .hero > div > div:not(.count) {
     background-color: #444;
+}
+
+/* Time Page */
+.time-page {
+
+}
+
+.time-page input[type=time] {
+    border: 1px solid #ddd;
+    padding: 10px;
+    height: 41px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.time-page p {
+    margin-bottom: 0 !important;
+}
+
+.time-page h3 {
+    font-size: 13px;
+}
+
+.time-page h4 {
+    padding: 10px;
+    background-color: #5DA97B;
+    color:#FFF;
+}
+
+.time-page .body > .flex  > div:first-child {
+    margin-right: 20px;
 }
 
 /* Submit Stats Modal */

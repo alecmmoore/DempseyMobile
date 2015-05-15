@@ -1,0 +1,23 @@
+<ion-view view-title="Players" ng-controller="playersController as playersCtrl">
+    <ion-content class="players-page">
+        <div class="loading flex flex-center" ng-show="playersCtrl.isBusy">
+            <ion-spinner icon="ripple"></ion-spinner>
+        </div>
+
+        <div ng-show="!playersCtrl.isBusy" class="body">
+            <div class="item" ng-repeat="player in playersCtrl.players" ng-click="playersCtrl.setSelected(player)">
+                <div class="flex">
+                    <div class="img-container">
+                        <img src="" ng-src="{{player.player.photo.url}}"/>
+                    </div>
+                    <h3 class="flex-one">{{player.player.name}} <span>{{player.player.jerseyNumber}}</span></h3>
+                </div>
+                <div ng-show="playersCtrl.isSelected(player)">
+                    <h3>Emergency Contact <span><br/>{{player.player.emergencyContact}}</span></h3>
+                    <h3>Emergency Contact Phone <span><br/>{{player.player.phone}}</span></h3>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

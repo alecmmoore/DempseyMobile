@@ -7,6 +7,11 @@
     </ion-header-bar>
     <ion-content class="submit-stats-modal">
 
+        <div ng-click="toggleStat('time')" class="item flex flex-center-vertical">
+            <i ng-show="time" class="icon ion-ios-circle-filled"></i>
+            <i ng-show="!time" class="icon ion-ios-circle-outline"></i>
+            <h3>Time</h3>
+        </div>
         <div ng-click="toggleStat('possession')" class="item flex flex-center-vertical">
             <i ng-show="possession" class="icon ion-ios-circle-filled"></i>
             <i ng-show="!possession" class="icon ion-ios-circle-outline"></i>

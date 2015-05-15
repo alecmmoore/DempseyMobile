@@ -44,7 +44,7 @@ dempsey.controller('loginController',
         self.signUp = function() {
             var alertPopup = $ionicPopup.alert({
                 title: 'Register Online',
-                template: 'Go to soccerstats.com to register as a coach and invite parents or players to your team! Then come back an login to start tracking stats.'
+                template: 'Go to soccerstats.com to register as a coach and invite parents or players to your team! Then come back and login to start tracking stats.'
             });
             alertPopup.then(function(res) {
                 console.log('Alert Closed');

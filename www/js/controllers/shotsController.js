@@ -26,7 +26,11 @@ dempsey.controller('shotsController',
         $scope.$on('$ionicView.enter', function(event) {
 
             // Load players
-            $scope.players = dataService.getLocalPlayers(true);
+            var currentGame = dataService.getLocalGame();
+
+            _.each(currentGame.roster, function(item) {
+                $scope.players.push(item[Object.keys(item)[0]])
+            });
 
             $timeout(function() {
 

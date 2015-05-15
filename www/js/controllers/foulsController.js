@@ -9,17 +9,30 @@ dempsey.controller('foulsController',
 
 
         $scope.$on('$ionicView.enter', function(event) {
-            var allPlayers = dataService.getLocalPlayers(true);
+            var currentGame = dataService.getLocalGame();
             var positions = dataService.getPositions();
-            _.each(allPlayers, function(item, index) {
-                if (index < positions.length) {
-                    item.player.x = positions[index].x;
-                    item.player.y = positions[index].y;
+
+            // Todo: remove when the player object store the x and y val in the DB
+            var posIndex = 0;
+
+            _.each(currentGame.roster, function(_item, index) {
+                var item = _item[Object.keys(_item)[0]];
+
+                if (item.startingStatus && item.startingStatus === 'On') {
+
+                    if (posIndex < positions.length) {
+                        item.player.x = positions[item.posId].x;
+                        item.player.y = positions[item.posId].y;
+                        posIndex += 1;
+                    }
+
                     $scope.players.push({data: item.player});
+
                 }
-                else {
+                else if (item.startingStatus && item.startingStatus === 'Off') {
                     $scope.bench.push({data: item.player});
                 }
+
             });
 
             $timeout(function() {

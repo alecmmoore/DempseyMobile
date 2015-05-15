@@ -7472,8 +7472,14 @@ a.button {
   margin-bottom: 20px; }
 
 @media (orientation: landscape) {
+
   .platform-ios.platform-browser.platform-ipad {
-    position: fixed; } }
+      position: fixed;
+      width: 320px;
+      height: 568px;
+      margin: auto;
+      border:1px solid #DDD;
+  } }
 
 .platform-c:not(.enable-transitions) * {
   -webkit-transition: none !important;

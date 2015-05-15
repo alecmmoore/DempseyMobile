@@ -22,79 +22,91 @@
         </div>
         <div ng-show="!homeCtrl.isBusy" class="list">
             <div class="flex">
+                <a href="#/time" class="col flex flex-center flex-column">
+                    <div class="flex flex-one flex-column">
+                        <div class="flex-one"></div>
+                        <img src="img/time-icon.svg"/>
+                        <div class="flex-one"></div>
+                        <h3>TIME</h3>
+                        <img ng-show="time" class="icon" src="img/alert-icon.svg"/>
+                    </div>
+                </a>
                 <a href="#/possession" class="col flex flex-center flex-column">
                     <div class="flex flex-one flex-column">
                         <div class="flex-one"></div>
                         <img src="img/possession-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>POSSESSION</h3>
-                        <i ng-show="possession" class="icon ion-ios-information"></i>
+                        <img ng-show="possession" class="icon" src="img/alert-icon.svg"/>
                     </div>
                 </a>
+            </div>
+
+            <div class="flex">
                 <a href="#/shots" class="col flex flex-center flex-column">
                     <div class="flex flex-one flex-column">
                         <div class="flex-one"></div>
                         <img src="img/shot-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>SHOTS/GOALS</h3>
-                        <i ng-show="shots" class="icon ion-ios-information"></i>
+                        <img ng-show="shots" class="icon" src="img/alert-icon.svg"/>
                     </div>
                 </a>
-            </div>
-
-            <div class="flex">
                 <a href="#/passes" class="col flex flex-center flex-column">
                     <div class="flex flex-one flex-column">
                         <div class="flex-one"></div>
                         <img src="img/pass-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>PASSES</h3>
-                        <i ng-show="passes" class="icon ion-ios-information"></i>
+                        <img ng-show="passes" class="icon" src="img/alert-icon.svg"/>
                     </div>
                 </a>
+            </div>
+
+            <div class="flex">
                 <a href="#/fouls" class="col flex flex-center flex-column">
                     <div class="flex flex-one flex-column">
                         <div class="flex-one"></div>
                         <img src="img/foul-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>FOULS</h3>
-                        <i ng-show="fouls" class="icon ion-ios-information"></i>
+                        <img ng-show="fouls" class="icon" src="img/alert-icon.svg"/>
                     </div>
                 </a>
-            </div>
-
-            <div class="flex">
                 <a href="#/tackles" class="col flex flex-center flex-column">
                     <div class="flex flex-one flex-column">
                         <div class="flex-one"></div>
                         <img src="img/tackle-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>TACKLES</h3>
-                        <i ng-show="tackles" class="icon ion-ios-information"></i>
+                        <img ng-show="tackles" class="icon" src="img/alert-icon.svg"/>
                     </div>
                 </a>
+            </div>
+
+            <div class="flex">
                 <a href="#/subs" class="col flex flex-center flex-column">
                     <div class="flex flex-one flex-column">
                         <div class="flex-one"></div>
                         <img src="img/sub-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>SUBS</h3>
-                        <i ng-show="subs" class="icon ion-ios-information"></i>
+                        <img ng-show="subs" class="icon" src="img/alert-icon.svg"/>
                     </div>
                 </a>
-            </div>
-
-            <div class="flex">
                 <a href="#/misc" class="col flex flex-center flex-column">
                     <div class="flex flex-one flex-column">
                         <div class="flex-one"></div>
                         <img src="img/misc-icon.svg"/>
                         <div class="flex-one"></div>
                         <h3>MISC</h3>
-                        <i ng-show="misc" class="icon ion-ios-information"></i>
+                        <img ng-show="misc" class="icon" src="img/alert-icon.svg"/>
                     </div>
 
                 </a>
+            </div>
+
+            <div class="flex">
                 <a ng-click="homeCtrl.submitStats()" class="submit col flex flex-center">
                     <h3>SUBMIT<br/>STATS</h3>
                 </a>

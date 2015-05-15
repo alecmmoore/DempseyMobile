@@ -22,6 +22,14 @@ var dempsey = angular.module('dempsey', ['ionic'])
                 url: '/possession',
                 templateUrl: 'views/pages/possession.html'
             })
+            .state('players', {
+                url: '/players',
+                templateUrl: 'views/pages/players.html'
+            })
+            .state('time', {
+                url: '/time',
+                templateUrl: 'views/pages/time.html'
+            })
             .state('shots', {
                 url: '/shots',
                 templateUrl: 'views/pages/shots.html'

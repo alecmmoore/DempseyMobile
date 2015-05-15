@@ -11,6 +11,7 @@ dempsey.controller('homeController',
 
                 $scope.gameStats = dataService.getLocalGamesStats();
 
+                $scope.time = $scope.gameStats.time && $scope.gameStats.time.length;
                 $scope.possession = $scope.gameStats.possession && $scope.gameStats.possession.length;
                 $scope.shots = $scope.gameStats.shots && $scope.gameStats.shots.length;
                 $scope.passes = $scope.gameStats.passes && $scope.gameStats.passes.length;
@@ -18,20 +19,15 @@ dempsey.controller('homeController',
                 $scope.tackles = $scope.gameStats.tackles && $scope.gameStats.tackles.length;
                 $scope.subs = $scope.gameStats.subs && $scope.gameStats.subs.length;
                 $scope.misc = $scope.gameStats.corners || $scope.gameStats.offsides || $scope.gameStats.saves || $scope.gameStats.opponentGoals;
+                $scope.corners = $scope.gameStats.corners;
+                $scope.offsides = $scope.gameStats.offsides;
+                $scope.saves = $scope.gameStats.saves;
+                $scope.opponentGoals = $scope.gameStats.opponentGoals;
 
                 self.isBusy = false;
 
             });
         });
-
-        // Booleans of which stats to submit
-       /* $scope.possession = false;
-        $scope.shots = false;
-        $scope.passes = false;
-        $scope.fouls = false;
-        $scope.tackles = false;
-        $scope.subs = false;
-        $scope.misc = false; */
 
         self.submitStats = function() {
             $ionicModal.fromTemplateUrl('views/modals/submit-stats-modal.html', {
@@ -47,7 +43,13 @@ dempsey.controller('homeController',
         // EDIT MODAL
         $scope.toggleStat = function(key) {
             if ($scope.gameStats[key]) {
-                $scope[key] = !$scope[key];
+                if ($scope[key]) {
+                    $scope[key] = undefined;
+                }
+                else {
+                    $scope[key] = $scope.gameStats[key];
+
+                }
             }
             else {
                 toastService.error('You have no data recorded for this statistic');
@@ -85,13 +87,16 @@ dempsey.controller('homeController',
 
 
         $scope.doSubmitStats = function() {
-            console.log($scope.gameStats);
-               return;
             var currentTeam = dataService.getLocalTeam();
             var currentGame = dataService.getLocalGame();
-            console.log(currentGame);
 
+            var currentRoster = {};
 
+            _.each(currentGame.roster, function(item) {
+                _.extend(currentRoster, item);
+            });
+
+            var gameTable = Parse.Object.extend("Game");
             var gamePlayerStatsTable = Parse.Object.extend("GamePlayerStats");
             var gameTeamStatsTable = Parse.Object.extend("GameTeamStats");
 
@@ -112,9 +117,21 @@ dempsey.controller('homeController',
 
             if ($scope.gameStats.opponentGoals) {
                 currentGame.gameTeamStats.goalsTaken = $scope.gameStats.opponentGoals[0];
+                currentGame.opponent.score = $scope.gameStats.opponentGoals[0];
             }
 
-            // Add type and position to player shots array { type: x,
+            if ($scope.gameStats.possession) {
+                currentGame.gameTeamStats.possession = $scope.gameStats.possession[0];
+            }
+
+            if ($scope.time) {
+                currentGame.startTime = $scope.gameStats.time[0].firstStart;
+                currentGame.halfTimeEnd = $scope.gameStats.time[0].firstEnd;
+                currentGame.halfTimeStart = $scope.gameStats.time[0].secondStart;
+                currentGame.endTime = $scope.gameStats.time[0].secondEnd;
+            }
+
+                // Add type and position to player shots array { type: x,
             // Aggregate player goals and assists
             // Update team goals
             if ($scope.gameStats.shots) {
@@ -126,21 +143,31 @@ dempsey.controller('homeController',
                         resultPos: item.resultPos
                     };
 
-                    currentGame.roster[item.takenBy.id].attributes.shots = currentGame.roster[item.takenBy.id].attributes.shots ? currentGame.roster[item.takenBy.id].attributes.shots : [];
 
-                    currentGame.roster[item.takenBy.id].attributes.shots.addUnique(thisShot);
+                    var takenById = item.takenBy.player.objectId;
+                    if (currentRoster[takenById]) {
 
-                    if (item.assistedBy) {
-                        currentGame.roster[item.assistedBy.id].attributes.assists = currentGame.roster[item.assistedBy.id].attributes.assists ? currentGame.roster[item.assistedBy.id].attributes.assists + 1 : 1;
+                        currentRoster[takenById].shots = currentRoster[takenById].shots ? currentRoster[takenById].shots : [];
+
+                        if (item.assistedBy) {
+                            var assistedBy = item.assistedBy.player.objectId;
+                            _.extend(thisShot, {'assistedBy': item.assistedBy.player.objectId});
+                            currentRoster[assistedBy].assists = currentRoster[assistedBy].assists ? currentRoster[assistedBy].assists + 1 : 1;
+                        }
+
+                        currentRoster[takenById].shots.push(thisShot);
+
+                        if (item.type === 'goal') {
+                            currentRoster[takenById].goals = currentRoster[takenById].goals ? currentRoster[takenById].goals + 1 : 1;
+                            teamGoals++;
+                        }
                     }
 
-                    if (item.type === 'goal') {
-                        currentGame.roster[item.takenBy.id].attributes.goals = currentGame.roster[item.takenBy.id].attributes.goals ? currentGame.roster[item.takenBy.id].attributes.goals + 1 : 1;
-                        teamGoals++;
-                    }
                 });
 
-                currentGame.gameTeamStats.attributes.goalsMade = teamGoals;
+                currentGame.gameTeamStats.goalsMade = teamGoals;
+                currentGame.team.score = teamGoals;
+
             }
 
             // Add to player { completed: x, total: y }
@@ -153,12 +180,12 @@ dempsey.controller('homeController',
                         total: item.second
                     };
 
-                    currentGame.roster[item.player].attributes.passes = thisPass;
+                    currentRoster[item.player].passes = thisPass;
 
                     teamPasses += thisPass.completed;
                 });
 
-                currentGame.gameTeamStats.attributes.passes = teamPasses;
+                currentGame.gameTeamStats.passes = teamPasses;
             }
 
             // Add to player cards { time: x, type: y }
@@ -167,17 +194,17 @@ dempsey.controller('homeController',
             if ($scope.gameStats.fouls) {
                 var teamFouls = 0;
                 _.each($scope.gameStats.fouls, function(item) {
-                    currentGame.roster[item.player].attributes.fouls = item.fouls;
+                    currentRoster[item.player].fouls = item.fouls;
 
-                    currentGame.roster[item.player].attributes.cards = currentGame.roster[item.player].attributes.cards ? currentGame.roster[item.player].attributes.cards : [];
+                    currentRoster[item.player].cards = currentRoster[item.player].cards ? currentRoster[item.player].cards : [];
                     _.each(item.cards, function(item2) {
-                        currentGame.roster[item.player].attributes.cards.push(item2);
+                        currentRoster[item.player].cards.push(item2);
                     });
 
                     teamFouls += item.fouls;
                 });
 
-                currentGame.gameTeamStats.attributes.fouls = teamFouls;
+                currentGame.gameTeamStats.fouls = teamFouls;
             }
 
             // Add to sub table: in: x, out: y, time: z  and add relation to GameTeamStatsTable
@@ -191,35 +218,53 @@ dempsey.controller('homeController',
 
                     subObj.set('isSub', item.data.isSub);
 
+                    var player1 = {
+                        __type: "Pointer",
+                        className: "Players",
+                        objectId: item.data.player1.data.objectId
+                    };
+
+                    var player2 = {
+                        __type: "Pointer",
+                        className: "Players",
+                        objectId: item.data.player2.data.objectId
+                    };
+
+
                     if (item.data.isSub) {
                         if (item.data.player1.data.isBench) {
-                            subObj.set('subbedIn', item.data.player1.data.objectId);
-                            subObj.set('subbedOut', item.data.player2.data.objectId);
 
-                            currentGame.roster[item.data.player1.data.objectId].attributes.subbedIn = currentGame.roster[item.data.player1.data.objectId].attributes.subbedIn ? currentGame.roster[item.data.player1.data.objectId].attributes.subbedIn : [];
-                            currentGame.roster[item.data.player2.data.objectId].attributes.subbedOut = currentGame.roster[item.data.player2.data.objectId].attributes.subbedOut ? currentGame.roster[item.data.player2.data.objectId].attributes.subbedOut : [];
+                            currentRoster[item.data.player1.data.objectId].subbedIn = currentRoster[item.data.player1.data.objectId].subbedIn ? currentRoster[item.data.player1.data.objectId].subbedIn : [];
+                            currentRoster[item.data.player2.data.objectId].subbedOut = currentRoster[item.data.player2.data.objectId].subbedOut ? currentRoster[item.data.player2.data.objectId].subbedOut : [];
 
-                            currentGame.roster[item.data.player1.data.objectId].attributes.subbedIn.push(item.data.timeStamp);
-                            currentGame.roster[item.data.player2.data.objectId].attributes.subbedOut.push(item.data.timeStamp);
+                            subObj.set('subbedOut', player1);
+                            subObj.set('subbedIn', player2);
+
+                            currentRoster[item.data.player1.data.objectId].subbedIn.push(item.data.timeStamp);
+                            currentRoster[item.data.player2.data.objectId].subbedOut.push(item.data.timeStamp);
                         }
                         else {
-                            subObj.set('subbedOut', item.data.player1.data.objectId);
-                            subObj.set('subbedIn', item.data.player2.data.objectId);
 
-                            currentGame.roster[item.data.player2.data.objectId].attributes.subbedIn = currentGame.roster[item.data.player2.data.objectId].attributes.subbedIn ? currentGame.roster[item.data.player2.data.objectId].attributes.subbedIn : [];
-                            currentGame.roster[item.data.player1.data.objectId].attributes.subbedOut = currentGame.roster[item.data.player1.data.objectId].attributes.subbedOut ? currentGame.roster[item.data.player1.data.objectId].attributes.subbedOut : [];
+                            currentRoster[item.data.player2.data.objectId].subbedIn = currentRoster[item.data.player2.data.objectId].subbedIn ? currentRoster[item.data.player2.data.objectId].subbedIn : [];
+                            currentRoster[item.data.player1.data.objectId].subbedOut = currentRoster[item.data.player1.data.objectId].subbedOut ? currentRoster[item.data.player1.data.objectId].subbedOut : [];
 
-                            currentGame.roster[item.data.player2.data.objectId].attributes.subbedIn.push(item.data.timeStamp);
-                            currentGame.roster[item.data.player1.data.objectId].attributes.subbedOut.push(item.data.timeStamp);
+                            subObj.set('subbedOut', player2);
+                            subObj.set('subbedIn', player1);
+
+                            currentRoster[item.data.player2.data.objectId].subbedIn.push(item.data.timeStamp);
+                            currentRoster[item.data.player1.data.objectId].subbedOut.push(item.data.timeStamp);
                         }
 
-                        subObj.set('time', item.data.timeStamp);
+                        subObj.set('timeStamp', item.data.timeStamp.toString());
 
                         subObj.save().then(function(sub) {
 
-                            currentGame.gameTeamStats.attributes.substitutions = currentGame.gameTeamStats.attributes.substitutions ? currentGame.gameTeamStats.attributes.substitutions : [];
-                            currentGame.gameTeamStats.attributes.substitutions.push(sub);
+                            currentGame.gameTeamStats.substitutions = currentGame.gameTeamStats.substitutions ? currentGame.gameTeamStats.substitutions : [];
+                            currentGame.gameTeamStats.substitutions.push(sub);
 
+                        }, function(obj,error){
+                            console.log(obj);
+                            console.log("Error saving game: " + error.code + " " + error.message);
                         });
 
                     }
@@ -232,12 +277,156 @@ dempsey.controller('homeController',
             if ($scope.gameStats.tackles) {
                 var teamTackles = 0;
                 _.each($scope.gameStats.tackles, function(item) {
-                    currentGame.roster[item.player].attributes.tackles = item.first;
+                    currentRoster[item.player].tackles = item.first;
                     teamTackles += item.first;
                 });
 
-                currentGame.gameTeamStats.attributes.tackles = teamPasses;
+                currentGame.gameTeamStats.tackles = teamPasses;
             }
 
+            var query;
+            // Update Game class
+            query = new Parse.Query(gameTable);
+            query.include("gameTeamStats");
+            query.include("gameTeamStats.roster");
+            query.first(currentGame.id).then(function(item) {
+                // set status, times
+                item.set("status", "review");
+
+                if ($scope.time) {
+                    item.set("startTime", currentGame.startTime);
+                    item.set("halfTimeEnd", currentGame.halfTimeEnd);
+                    item.set("halfTimeStart", currentGame.halfTimeStart);
+                    item.set("endTime", currentGame.endTime);
+                }
+
+                console.log("Saving");
+                console.log(item);
+                return item.save();
+
+            }).then(function(item) {
+                // Update Each Game Team Stats
+
+                var gameTeamStats = item.get("gameTeamStats");
+
+                if (currentGame.gameTeamStats.corners != undefined) {
+                    gameTeamStats.set("corners", currentGame.gameTeamStats.corners);
+                }
+
+                if (currentGame.gameTeamStats.fouls != undefined) {
+                    gameTeamStats.set("fouls", currentGame.gameTeamStats.fouls);
+                }
+
+                if (currentGame.gameTeamStats.goalsMade != undefined) {
+                    gameTeamStats.set("goalsMade", currentGame.gameTeamStats.goalsMade);
+                }
+
+                if (currentGame.gameTeamStats.substitutions != undefined && currentGame.gameTeamStats.substitutions.length) {
+                    _.each(currentGame.gameTeamStats.substitutions, function(item) {
+                        gameTeamStats.addUnique("substitutions", item);
+                    });
+                }
+
+                if (currentGame.gameTeamStats.goalsTaken != undefined) {
+                    gameTeamStats.set("goalsTaken", currentGame.gameTeamStats.goalsTaken);
+                }
+
+                if (currentGame.gameTeamStats.tackles != undefined) {
+                    gameTeamStats.set("tackles", currentGame.gameTeamStats.tackles);
+                }
+
+                if (currentGame.gameTeamStats.saves != undefined) {
+                    gameTeamStats.set("saves", currentGame.gameTeamStats.saves);
+                }
+
+                if (currentGame.gameTeamStats.possession != undefined) {
+                    gameTeamStats.set("possession", currentGame.gameTeamStats.possession);
+                }
+
+                if (currentGame.gameTeamStats.passes != undefined) {
+                    gameTeamStats.set("passes", currentGame.gameTeamStats.passes);
+                }
+
+                if (currentGame.gameTeamStats.offsides != undefined) {
+                    gameTeamStats.set("offsides", currentGame.gameTeamStats.offsides);
+                }
+
+                console.log("Saving");
+                console.log(gameTeamStats);
+                return gameTeamStats.save();
+
+            }, function(error) {
+                console.log(error);
+            }).then(function(item) {
+
+                // Update Each Game Player Stats
+
+                var roster = item.get("roster");
+
+                var promises = [];
+
+                _.each(roster, function() {
+                    promises.push(new Parse.Promise());
+                });
+
+                _.each(roster, function(gamePlayerStats, index) {
+
+                    var playerId = gamePlayerStats.get("player").id;
+
+                    console.log('gamePlayerStats');
+                    console.log(playerId);
+                    console.log(currentRoster[playerId]);
+
+                    if (currentRoster[playerId].assists) {
+                        gamePlayerStats.set("assists", currentRoster[playerId].assists);
+                    }
+
+                    if (currentRoster[playerId].fouls) {
+                        gamePlayerStats.set("fouls", currentRoster[playerId].fouls);
+                    }
+
+                    if (currentRoster[playerId].cards && currentRoster[playerId].cards.length) {
+                        _.each(currentRoster[playerId].cards, function(card) {
+                            gamePlayerStats.addUnique("cards", card);
+                        });
+                    }
+
+                    if (currentRoster[playerId].shots && currentRoster[playerId].shots.length) {
+                        _.each(currentRoster[playerId].shots, function(shot) {
+                            gamePlayerStats.addUnique("shots", shot);
+                        });
+                    }
+
+                    if (currentRoster[playerId].tackles) {
+                        gamePlayerStats.set("tackles", currentRoster[playerId].tackles);
+                    }
+
+                    if (currentRoster[playerId].passes) {
+                        gamePlayerStats.set("passes", currentRoster[playerId].passes);
+                    }
+
+                    if (currentRoster[playerId].subbedIn && currentRoster[playerId].subbedIn.length) {
+                        gamePlayerStats.set("subbedIn", currentRoster[playerId].subbedIn);
+                    }
+
+                    if (currentRoster[playerId].subbedOut && currentRoster[playerId].subbedOut.length) {
+                        gamePlayerStats.set("subbedOut", currentRoster[playerId].subbedOut);
+                    }
+
+                    // Complete promise
+                    gamePlayerStats.save().then(function(item) {
+                        promises[index].resolve(true);
+                    });
+                });
+
+                console.log("Saving");
+                console.log(item);
+                return Parse.Promise.when(promises);
+
+            }, function(error) {
+                console.log(error);
+            }).then(function(item) {
+                console.log("Booyah");
+            });
         }
     });
