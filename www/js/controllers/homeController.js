@@ -1,5 +1,5 @@
 dempsey.controller('homeController',
-    function homeController($scope, $timeout, $ionicModal, toastService, dataService) {
+    function homeController($scope, $timeout, $ionicModal, viewService, toastService, dataService) {
         var self = this;
 
         self.currentGame = {};
@@ -300,8 +300,6 @@ dempsey.controller('homeController',
                     item.set("endTime", currentGame.endTime);
                 }
 
-                console.log("Saving");
-                console.log(item);
                 return item.save();
 
             }).then(function(item) {
@@ -351,8 +349,6 @@ dempsey.controller('homeController',
                     gameTeamStats.set("offsides", currentGame.gameTeamStats.offsides);
                 }
 
-                console.log("Saving");
-                console.log(gameTeamStats);
                 return gameTeamStats.save();
 
             }, function(error) {
@@ -419,14 +415,14 @@ dempsey.controller('homeController',
                     });
                 });
 
-                console.log("Saving");
-                console.log(item);
                 return Parse.Promise.when(promises);
 
             }, function(error) {
                 console.log(error);
             }).then(function(item) {
-                console.log("Booyah");
+                toastService.success('Stats have been submitted!');
+                $scope.closeModal();
+                viewService.goToPage('/games');
             });
         }
     });

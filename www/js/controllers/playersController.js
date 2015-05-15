@@ -1,5 +1,5 @@
 dempsey.controller('playersController',
-    function playersController($scope, $timeout, $interval, toastService, dataService) {
+    function playersController($scope, $timeout, dataService, $ionicSideMenuDelegate) {
         var self = this;
         self.isBusy = true;
 
@@ -12,6 +12,10 @@ dempsey.controller('playersController',
                 self.isBusy = false;
            });
         });
+
+        self.toggleDrawer = function() {
+            $ionicSideMenuDelegate.toggleLeft();
+        }
 
         self.currentPlayer = {};
 

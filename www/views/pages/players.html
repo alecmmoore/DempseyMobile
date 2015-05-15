@@ -1,4 +1,11 @@
 <ion-view view-title="Players" ng-controller="playersController as playersCtrl">
+
+    <ion-nav-buttons side="left">
+        <button ng-click="playersCtrl.toggleDrawer()" class="button icon button-clear">
+            <i class="ion ion-ios-drag"></i>
+        </button>
+    </ion-nav-buttons>
+
     <ion-content class="players-page">
         <div class="loading flex flex-center" ng-show="playersCtrl.isBusy">
             <ion-spinner icon="ripple"></ion-spinner>

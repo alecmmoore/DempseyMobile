@@ -225,6 +225,17 @@ ion-content .hero > div:not(.stat) > h2 {
     min-width: 58px;
 }
 
+ion-side-menu-content,
+ion-side-menus {
+}
+
+ion-side-menu-content ion-item,
+ion-side-menu-content ion-item a {
+    color: #5DA97B !important;
+    background-color: #f2f2f2 !important;
+    text-transform: uppercase;
+}
+
 .list .item .ion-close-circled {
     padding: 18px;
     font-size: 20px;
