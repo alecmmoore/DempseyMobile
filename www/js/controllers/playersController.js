@@ -20,6 +20,11 @@ dempsey.controller('playersController',
         self.currentPlayer = {};
 
         self.setSelected = function(player) {
+            if (self.isSelected(player)) {
+                self.currentPlayer = {};
+                return;
+            }
+
             self.currentPlayer = player;
         }
 
