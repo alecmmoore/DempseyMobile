@@ -289,7 +289,10 @@ dempsey.controller('homeController',
             query = new Parse.Query(gameTable);
             query.include("gameTeamStats");
             query.include("gameTeamStats.roster");
-            query.first(currentGame.id).then(function(item) {
+            //query.equalTo("objectId", currentGame.id);
+            query.get(currentGame.id).then(function(item) {
+
+                console.log(item);
                 // set status, times
                 item.set("status", "review");
 
