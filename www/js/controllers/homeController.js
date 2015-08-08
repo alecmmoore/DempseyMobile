@@ -137,10 +137,12 @@ dempsey.controller('homeController',
             if ($scope.gameStats.shots) {
                 var teamGoals = 0;
                 _.each($scope.gameStats.shots, function(item) {
+                    console.log(item);
                     var thisShot = {
                         type: item.type,
                         shotPos: item.shotPos,
-                        resultPos: item.resultPos
+                        resultPos: item.resultPos,
+                        timeStamp: item.timeStamp
                     };
 
 
@@ -294,7 +296,7 @@ dempsey.controller('homeController',
 
                 console.log(item);
                 // set status, times
-                item.set("status", "review");
+                item.set("status", "pending");
 
                 if ($scope.time) {
                     item.set("startTime", currentGame.startTime);
@@ -303,122 +305,130 @@ dempsey.controller('homeController',
                     item.set("endTime", currentGame.endTime);
                 }
 
+                //save current roster for approval
+                item.set("pendingPlayerStats", currentRoster);
+
+                //save current game stats for approval
+                item.set("pendingTeamStats", currentGame.gameTeamStats);
+
                 return item.save();
 
-            }).then(function(item) {
-                // Update Each Game Team Stats
-
-                var gameTeamStats = item.get("gameTeamStats");
-
-                if (currentGame.gameTeamStats.corners != undefined) {
-                    gameTeamStats.set("corners", currentGame.gameTeamStats.corners);
-                }
-
-                if (currentGame.gameTeamStats.fouls != undefined) {
-                    gameTeamStats.set("fouls", currentGame.gameTeamStats.fouls);
-                }
-
-                if (currentGame.gameTeamStats.goalsMade != undefined) {
-                    gameTeamStats.set("goalsMade", currentGame.gameTeamStats.goalsMade);
-                }
-
-                if (currentGame.gameTeamStats.substitutions != undefined && currentGame.gameTeamStats.substitutions.length) {
-                    _.each(currentGame.gameTeamStats.substitutions, function(item) {
-                        gameTeamStats.addUnique("substitutions", item);
-                    });
-                }
-
-                if (currentGame.gameTeamStats.goalsTaken != undefined) {
-                    gameTeamStats.set("goalsTaken", currentGame.gameTeamStats.goalsTaken);
-                }
-
-                if (currentGame.gameTeamStats.tackles != undefined) {
-                    gameTeamStats.set("tackles", currentGame.gameTeamStats.tackles);
-                }
-
-                if (currentGame.gameTeamStats.saves != undefined) {
-                    gameTeamStats.set("saves", currentGame.gameTeamStats.saves);
-                }
-
-                if (currentGame.gameTeamStats.possession != undefined) {
-                    gameTeamStats.set("possession", currentGame.gameTeamStats.possession);
-                }
-
-                if (currentGame.gameTeamStats.passes != undefined) {
-                    gameTeamStats.set("passes", currentGame.gameTeamStats.passes);
-                }
-
-                if (currentGame.gameTeamStats.offsides != undefined) {
-                    gameTeamStats.set("offsides", currentGame.gameTeamStats.offsides);
-                }
-
-                return gameTeamStats.save();
-
-            }, function(error) {
-                console.log(error);
-            }).then(function(item) {
-
-                // Update Each Game Player Stats
-
-                var roster = item.get("roster");
-
-                var promises = [];
-
-                _.each(roster, function() {
-                    promises.push(new Parse.Promise());
-                });
-
-                _.each(roster, function(gamePlayerStats, index) {
-
-                    var playerId = gamePlayerStats.get("player").id;
-
-                    console.log('gamePlayerStats');
-                    console.log(playerId);
-                    console.log(currentRoster[playerId]);
-
-                    if (currentRoster[playerId].assists) {
-                        gamePlayerStats.set("assists", currentRoster[playerId].assists);
-                    }
-
-                    if (currentRoster[playerId].fouls) {
-                        gamePlayerStats.set("fouls", currentRoster[playerId].fouls);
-                    }
-
-                    if (currentRoster[playerId].cards && currentRoster[playerId].cards.length) {
-                        _.each(currentRoster[playerId].cards, function(card) {
-                            gamePlayerStats.addUnique("cards", card);
-                        });
-                    }
-
-                    if (currentRoster[playerId].shots && currentRoster[playerId].shots.length) {
-                        _.each(currentRoster[playerId].shots, function(shot) {
-                            gamePlayerStats.addUnique("shots", shot);
-                        });
-                    }
-
-                    if (currentRoster[playerId].tackles) {
-                        gamePlayerStats.set("tackles", currentRoster[playerId].tackles);
-                    }
-
-                    if (currentRoster[playerId].passes) {
-                        gamePlayerStats.set("passes", currentRoster[playerId].passes);
-                    }
-
-                    if (currentRoster[playerId].subbedIn && currentRoster[playerId].subbedIn.length) {
-                        gamePlayerStats.set("subbedIn", currentRoster[playerId].subbedIn);
-                    }
-
-                    if (currentRoster[playerId].subbedOut && currentRoster[playerId].subbedOut.length) {
-                        gamePlayerStats.set("subbedOut", currentRoster[playerId].subbedOut);
-                    }
-
-                    // Complete promise
-                    gamePlayerStats.save().then(function(item) {
-                        promises[index].resolve(true);
-                    });
-                });
-
-                return Parse.Promise.when(promises);
+            //}).then(function(item) {
+            //    // Update Each Game Team Stats
+            //
+            //    var gameTeamStats = item.get("gameTeamStats");
+            //
+            //    //if (currentGame.gameTeamStats.corners != undefined) {
+            //    //    gameTeamStats.set("corners", currentGame.gameTeamStats.corners);
+            //    //}
+            //    //
+            //    //if (currentGame.gameTeamStats.fouls != undefined) {
+            //    //    gameTeamStats.set("fouls", currentGame.gameTeamStats.fouls);
+            //    //}
+            //    //
+            //    //if (currentGame.gameTeamStats.goalsMade != undefined) {
+            //    //    gameTeamStats.set("goalsMade", currentGame.gameTeamStats.goalsMade);
+            //    //}
+            //
+            //    if (currentGame.gameTeamStats.substitutions != undefined && currentGame.gameTeamStats.substitutions.length) {
+            //        _.each(currentGame.gameTeamStats.substitutions, function(item) {
+            //            gameTeamStats.addUnique("substitutions", item);
+            //        });
+            //    }
+            //
+            //    //if (currentGame.gameTeamStats.goalsTaken != undefined) {
+            //    //    gameTeamStats.set("goalsTaken", currentGame.gameTeamStats.goalsTaken);
+            //    //}
+            //    //
+            //    //if (currentGame.gameTeamStats.tackles != undefined) {
+            //    //    gameTeamStats.set("tackles", currentGame.gameTeamStats.tackles);
+            //    //}
+            //    //
+            //    //if (currentGame.gameTeamStats.saves != undefined) {
+            //    //    gameTeamStats.set("saves", currentGame.gameTeamStats.saves);
+            //    //}
+            //    //
+            //    //if (currentGame.gameTeamStats.possession != undefined) {
+            //    //    gameTeamStats.set("possession", currentGame.gameTeamStats.possession);
+            //    //}
+            //    //
+            //    //if (currentGame.gameTeamStats.passes != undefined) {
+            //    //    gameTeamStats.set("passes", currentGame.gameTeamStats.passes);
+            //    //}
+            //    //
+            //    //if (currentGame.gameTeamStats.offsides != undefined) {
+            //    //    gameTeamStats.set("offsides", currentGame.gameTeamStats.offsides);
+            //    //}
+            //
+            //    return item.save();
+            //
+            //}, function(error) {
+            //    console.log(error);
+            //}).then(function(item) {
+            //
+            //    // Update Each Game Player Stats
+            //
+            //   // return item.save();
+            //
+            //    var roster = item.get("roster");
+            //
+            //    var promises = [];
+            //
+            //    _.each(roster, function() {
+            //        promises.push(new Parse.Promise());
+            //    });
+            //
+            //    _.each(roster, function(gamePlayerStats, index) {
+            //
+            //        var playerId = gamePlayerStats.get("player").id;
+            //
+            //        //console.log('gamePlayerStats');
+            //        //console.log(playerId);
+            //        //console.log(currentRoster[playerId]);
+            //        //
+            //        //if (currentRoster[playerId].assists) {
+            //        //    gamePlayerStats.set("assists", currentRoster[playerId].assists);
+            //        //}
+            //        //
+            //        //if (currentRoster[playerId].fouls) {
+            //        //    gamePlayerStats.set("fouls", currentRoster[playerId].fouls);
+            //        //}
+            //        //
+            //        //if (currentRoster[playerId].cards && currentRoster[playerId].cards.length) {
+            //        //    _.each(currentRoster[playerId].cards, function(card) {
+            //        //        gamePlayerStats.addUnique("cards", card);
+            //        //    });
+            //        //}
+            //        //
+            //        //if (currentRoster[playerId].shots && currentRoster[playerId].shots.length) {
+            //        //    _.each(currentRoster[playerId].shots, function(shot) {
+            //        //        gamePlayerStats.addUnique("shots", shot);
+            //        //    });
+            //        //}
+            //        //
+            //        //if (currentRoster[playerId].tackles) {
+            //        //    gamePlayerStats.set("tackles", currentRoster[playerId].tackles);
+            //        //}
+            //        //
+            //        //if (currentRoster[playerId].passes) {
+            //        //    gamePlayerStats.set("passes", currentRoster[playerId].passes);
+            //        //}
+            //
+            //        if (currentRoster[playerId].subbedIn && currentRoster[playerId].subbedIn.length) {
+            //            gamePlayerStats.set("subbedIn", currentRoster[playerId].subbedIn);
+            //        }
+            //
+            //        if (currentRoster[playerId].subbedOut && currentRoster[playerId].subbedOut.length) {
+            //            gamePlayerStats.set("subbedOut", currentRoster[playerId].subbedOut);
+            //        }
+            //
+            //        // Complete promise
+            //        gamePlayerStats.save().then(function(item) {
+            //            promises[index].resolve(true);
+            //        });
+            //    });
+            //
+            //    return Parse.Promise.when(promises);
 
             }, function(error) {
                 console.log(error);
