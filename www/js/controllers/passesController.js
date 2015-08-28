@@ -49,6 +49,7 @@ dempsey.controller('passesController',
         });
 
         self.statChanged = function(data) {
+            console.log(data);
             // Pass complete
             dataService.setLocalGameStats('passes', data, true);
         };

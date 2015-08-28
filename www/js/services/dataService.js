@@ -109,6 +109,23 @@ dempsey.factory('dataService', function ($location, $timeout, $rootScope, config
                 else {
                     allStats[key].push(value);
                 }
+
+                // if key is a time property, set playing time differences
+                if (key === 'firstStart') {
+
+                }
+
+                if (key === 'firstEnd') {
+
+                }
+
+                if (key === 'secondStart') {
+
+                }
+
+                if (key === 'secondEnd') {
+
+                }
             }
             else {
                 if (allStats[key]) {
